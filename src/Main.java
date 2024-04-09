@@ -12,7 +12,6 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
         HomePane home = new HomePane(primaryStage);
         Scene root = new Scene(home, 750, 500);
-
         primaryStage.setTitle("Music Rights");
         primaryStage.setScene(root);
         primaryStage.show();
