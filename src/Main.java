@@ -1,4 +1,4 @@
-import GUI.HomePane;
+import gui.HomePane;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -10,7 +10,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        HomePane home = new HomePane();
+        HomePane home = new HomePane(primaryStage);
         Scene root = new Scene(home, 750, 500);
 
         primaryStage.setTitle("Music Rights");

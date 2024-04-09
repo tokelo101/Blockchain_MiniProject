@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class HomePane extends StackPane {
     private VBox mainBox;
@@ -34,8 +35,9 @@ public class HomePane extends StackPane {
     
     //Navigation Contents [Panes]
     private RegisterPane register;
+    private UploadSong uploadsong;
     
-    public HomePane() {
+    public HomePane(Stage primaryStage) {
     	
     	mainBox = new VBox();
         mainBox.setAlignment(Pos.TOP_CENTER);
@@ -83,12 +85,24 @@ public class HomePane extends StackPane {
         mainBox.getChildren().addAll(searchBox, subBox);
         this.getChildren().addAll(mainBox);
         
+        Label tempField = new Label();
+        content.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
         
         navRegister.setOnAction(event->{
         	register = new RegisterPane();
         	this.getChildren().remove(0);
+        	content.getChildren().remove(0);
         	content.getChildren().addAll(register);
         	this.getChildren().add(mainBox);
+        });
+        
+        navUploadSong.setOnAction(event->{
+        	uploadsong = new UploadSong(content, primaryStage);
+        	this.getChildren().remove(0);
+        	content.getChildren().remove(0);
+        	content.getChildren().addAll(uploadsong);
+        	this.getChildren().add(mainBox);
+        	
         });
     }
 	

@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -19,7 +19,7 @@ public class RegisterPane extends StackPane {
 	        gridPane.setPadding(new Insets(25));
 
 	        // Add form elements
-	        Label lbTitle = new Label("Register Form");
+	        Label lbTitle = new Label("Register User");
 	        lbTitle.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 	        gridPane.add(lbTitle, 0, 0, 2, 1);
 	        GridPane.setHalignment(lbTitle, HPos.CENTER);
