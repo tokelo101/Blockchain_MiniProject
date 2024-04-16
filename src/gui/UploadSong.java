@@ -17,6 +17,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author TM Monare 221022037
+ *
+ */
 public class UploadSong extends GridPane{
 	
 	public UploadSong(Pane content, Stage primaryStage) {

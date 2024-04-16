@@ -1,5 +1,11 @@
 import java.io.*;
+import java.util.List;
 
+/**
+ * A class that manages the Artist class
+ * @author TM Monare 221022037
+ *
+ */
 public class ArtistManager {
 	
 	private File artistsfile;
@@ -56,10 +62,27 @@ public class ArtistManager {
 		try(FileInputStream fis = new FileInputStream(artistsfile);
 			ObjectInputStream obj_is = new ObjectInputStream(fis)) {
 			
-			Object object = obj_is.readObject(); 
+			//List<Object> objects = (List<Object>) obj_is.readObject(); 
+			List<Object> objects = (List<Object>) obj_is.readObject();
 			
-			if(object instanceof Artist) {
-				artist = (Artist)object;
+			for(Object object: objects) {
+				if(object instanceof Artist) {
+					artist = (Artist)object;
+					//Test Purposes
+					System.out.println("-----------Printing Artist------------");
+					System.out.println("Private Key: "+artist.getPrivateKey());
+					System.out.println("Public Key: "+artist.getPublicKey());
+					System.out.println("Stage Name: "+artist.getStagename());
+					System.out.println("First Name: "+artist.getName());
+					System.out.println("Last Name: "+artist.getSurname());
+					System.out.println("Email: "+artist.getEmail());
+					System.out.println("Password: "+artist.getPassword());
+					if(((Artist) object).getPublicKey().equals(publicKey)) {
+						System.out.println("Match Found! \n Artist: " +artist.getName() + "Given Key: "+ publicKey  + " == " + artist.getPublicKey());
+						return artist;
+					}
+					
+				}
 			}
 			
 		}catch (IOException ioe) {
@@ -70,7 +93,7 @@ public class ArtistManager {
 			e.printStackTrace();
 		}
 		
-		return artist;
+		return null;
 	}
 	
 	/**

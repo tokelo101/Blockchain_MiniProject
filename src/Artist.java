@@ -1,6 +1,11 @@
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * 
+ * @author TM Monare 221022037
+ *
+ */
 public class Artist implements Serializable{
 
 	private String stagename;
