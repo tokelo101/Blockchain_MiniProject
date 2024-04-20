@@ -1,3 +1,4 @@
+package corelogic;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -6,7 +7,7 @@ import java.util.Random;
  * @author TM Monare 221022037
  *
  */
-public class Artist implements Serializable{
+public class User implements Serializable{
 
 	private String stagename;
 	private String name;
@@ -17,7 +18,7 @@ public class Artist implements Serializable{
 	private String PUBLIC_KEY;
 	
 	
-	public Artist(String stagename, String name, String surname, String email, String password) {
+	public User(String stagename, String name, String surname, String email, String password) {
 		super();
 		this.stagename = stagename;
 		this.name = name;

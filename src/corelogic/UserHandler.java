@@ -1,4 +1,6 @@
+package corelogic;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -6,10 +8,10 @@ import java.util.List;
  * @author TM Monare 221022037
  *
  */
-public class ArtistManager {
+public class UserHandler {
 	
-	private File artistsfile;
-	private String filePath = "data/artists.bin";
+	private File usersfile;
+	private String filePath = "data/users.bin";
 	
 
 	/**
@@ -17,9 +19,9 @@ public class ArtistManager {
 	 * @param artist an artist object to be written to a binary file
 	 * @return status returns a status based on whether the file was written successfully or not
 	 */
-	public String RegisterNewArtist(Artist artist) {
+	public String RegisterNewArtist(User user) {
 		//Write Artist to a binary file
-		return WriteArtist(artist);
+		return WriteUser(user);
 	}
 	
 	/**
@@ -27,12 +29,12 @@ public class ArtistManager {
 	 * @param artist an artist object to be written to a binary file
 	 * @return status returns a status based on whether the file was written successfully or not
 	 */
-	private String WriteArtist(Artist artist) {
-		artistsfile = new File(filePath);
+	private String WriteUser(User user) {
+		usersfile = new File(filePath);
 		String status = "Artist Regiatration Failed!";
-		try(FileOutputStream fos = new FileOutputStream(artistsfile);
+		try(FileOutputStream fos = new FileOutputStream(usersfile);
 			ObjectOutputStream obj_os = new ObjectOutputStream(fos)){
-			obj_os.writeObject(artist);
+			obj_os.writeObject(user);
 			status = "Artist Registered Successfully!";
 		}catch(IOException ioe) {
 			ioe.printStackTrace();
@@ -46,9 +48,9 @@ public class ArtistManager {
 	 * @param publicKey a public key used to uniquely identify an artist
 	 * @return artist an artist object read from a binary file
 	 */
-	public Artist GetArtist(String publicKey) {
+	public User GetArtist(String publicKey) {
 		//Reading arist data from a binary File
-		return ReadArtist(publicKey);
+		return ReadUser(publicKey);
 	}
 	
 	/**
@@ -56,30 +58,40 @@ public class ArtistManager {
 	 * @param publicKey a public key used to uniquely identify an artist
 	 * @return artist an artist object read from a binary file
 	 */
-	private Artist ReadArtist(String publicKey) {
-		Artist artist = null;
+	private User ReadUser(String publicKey) {
+		User user = null;
 		
-		try(FileInputStream fis = new FileInputStream(artistsfile);
+		try(FileInputStream fis = new FileInputStream(usersfile);
 			ObjectInputStream obj_is = new ObjectInputStream(fis)) {
 			
 			//List<Object> objects = (List<Object>) obj_is.readObject(); 
-			List<Object> objects = (List<Object>) obj_is.readObject();
+			ArrayList<Object> objects = new ArrayList<Object>();
+			
+			while (true) {
+			    Object obj;
+			    try{
+			    	obj = obj_is.readObject();
+			    	objects.add(obj);
+			    } catch (EOFException e) {
+			      break;
+			    }
+			}
 			
 			for(Object object: objects) {
-				if(object instanceof Artist) {
-					artist = (Artist)object;
+				if(object instanceof User) {
+					user = (User)object;
 					//Test Purposes
 					System.out.println("-----------Printing Artist------------");
-					System.out.println("Private Key: "+artist.getPrivateKey());
-					System.out.println("Public Key: "+artist.getPublicKey());
-					System.out.println("Stage Name: "+artist.getStagename());
-					System.out.println("First Name: "+artist.getName());
-					System.out.println("Last Name: "+artist.getSurname());
-					System.out.println("Email: "+artist.getEmail());
-					System.out.println("Password: "+artist.getPassword());
-					if(((Artist) object).getPublicKey().equals(publicKey)) {
-						System.out.println("Match Found! \n Artist: " +artist.getName() + "Given Key: "+ publicKey  + " == " + artist.getPublicKey());
-						return artist;
+					System.out.println("Private Key: "+user.getPrivateKey());
+					System.out.println("Public Key: "+user.getPublicKey());
+					System.out.println("Stage Name: "+user.getStagename());
+					System.out.println("First Name: "+user.getName());
+					System.out.println("Last Name: "+user.getSurname());
+					System.out.println("Email: "+user.getEmail());
+					System.out.println("Password: "+user.getPassword());
+					if(((User) object).getPublicKey().equals(publicKey)) {
+						System.out.println("Match Found! \n Artist: " +user.getName() + "Given Key: "+ publicKey  + " == " + user.getPublicKey());
+						return user;
 					}
 					
 				}
