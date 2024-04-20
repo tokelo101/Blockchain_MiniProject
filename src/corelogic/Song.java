@@ -1,8 +1,13 @@
+package corelogic;
 import java.util.List;
 
 import acsse.csc03a3.Block;
 
-@SuppressWarnings("rawtypes")
+/**
+ * 
+ * @author TM Monare 221022037
+ *
+ */
 public class Song extends Block{
 
     @SuppressWarnings("unchecked")
