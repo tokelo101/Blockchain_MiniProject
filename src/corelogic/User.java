@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class User implements Serializable{
 
-	private String stagename;
+	private String usertype;
 	private String name;
 	private String surname;
 	private String email;
@@ -18,9 +18,9 @@ public class User implements Serializable{
 	private String PUBLIC_KEY;
 	
 	
-	public User(String stagename, String name, String surname, String email, String password) {
+	public User(String usertype, String name, String surname, String email, String password) {
 		super();
-		this.stagename = stagename;
+		this.usertype = usertype;
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
@@ -45,8 +45,8 @@ public class User implements Serializable{
 	}
 	
 
-	public String getStagename() {
-		return stagename;
+	public String getUserType() {
+		return usertype;
 	}
 
 	public String getName() {
@@ -71,5 +71,18 @@ public class User implements Serializable{
 	
 	public String getPublicKey() {
 		return PUBLIC_KEY;
+	}
+	
+	
+	public void PrintUser() {
+		//Test Purposes
+		System.out.println("-----------Printing Artist------------");
+		System.out.println("Private Key: "+this.getPrivateKey());
+		System.out.println("Public Key: "+this.getPublicKey());
+		System.out.println("User Type: "+this.getUserType());
+		System.out.println("First Name: "+this.getName());
+		System.out.println("Last Name: "+this.getSurname());
+		System.out.println("Email: "+this.getEmail());
+		System.out.println("Password: "+this.getPassword());
 	}
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 import corelogic.*;
 
 public class RegisterPane extends StackPane {
@@ -26,7 +27,7 @@ public class RegisterPane extends StackPane {
             "Publisher",
             "Distributor"
     );
-	public RegisterPane() {
+	public RegisterPane(Pane content, Stage primaryStage) {
 		userhandler = new UserHandler();
 		
 		 GridPane gridPane = new GridPane();
@@ -79,10 +80,38 @@ public class RegisterPane extends StackPane {
 	        
 	        btnRegister.setOnAction(event->{
 	        	//create User
+	        	String usertype = cmbUserType.getValue();
+	        	String name = txtName.getText();
+	        	String surname = txtSurname.getText();
+	        	String email = txtEmail.getText();
+	        	String _password = password.getText();
 	        	
+	        	User newuser = new User(usertype, name, surname, email, _password);
 	        	//use userhandler to save user to file
+	        	boolean registered = userhandler.RegisterNewUser(newuser);
 	        	
-	        	
+	        	if(registered) {
+	        		newuser.PrintUser();
+	        		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+	                alert.setTitle("User Registration");
+	                alert.setHeaderText("Welcome " +newuser.getName());
+	                alert.setContentText("Your Public Key is: " + newuser.getPublicKey()+
+	                		 " | Your private Key is: " + newuser.getPrivateKey());
+	                alert.showAndWait();
+	                
+	                UploadSong uploadsong = new UploadSong(content, primaryStage);
+	            	this.getChildren().remove(0);
+	            	content.getChildren().remove(0);
+	            	content.getChildren().addAll(uploadsong);
+	            	
+	                
+	        	}else {
+	        		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+	                alert.setTitle("User Registration");
+	                alert.setHeaderText("Registration was Unsuccessful");
+	                alert.setContentText("please try to register again");
+	                alert.showAndWait();
+	        	}
 	        	
 	        });
 	}
