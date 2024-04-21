@@ -91,7 +91,6 @@ public class UploadSong extends GridPane{
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	content.getChildren().addAll(licenseandcopyrights);
-        	//this.getChildren().add(mainBox);
         });
 	}
 }

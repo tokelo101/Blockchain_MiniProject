@@ -89,7 +89,7 @@ public class HomePane extends StackPane {
         content.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
         
         navRegister.setOnAction(event->{
-        	register = new RegisterPane();
+        	register = new RegisterPane(content, primaryStage);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	content.getChildren().addAll(register);
