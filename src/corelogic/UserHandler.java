@@ -101,18 +101,6 @@ public class UserHandler{
 		return user;
 	}
 	
-	/**
-	 * 
-	 * @param song a song object to be written to the block
-	 * @return status returns a status on whether the file has been written or not
-	 */
-	public boolean UploadSong(Song song) {
-		//validate and save it to a file
-		//and create a transaction
-		
-		return false;
-	}
-	
 	
 	
 }

@@ -10,7 +10,7 @@ import acsse.csc03a3.Transaction;
  * @author TM Monare 221022037
  *
  */
-public class Song<T> extends Block<T>{
+public class Song{
 
 	private String songTitle;
 	private String artists[];
@@ -21,18 +21,18 @@ public class Song<T> extends Block<T>{
 	private String ISRC; //International Standard Recording Code
 	private String copyrightsHolder;
 	private String copyrightRegNumber;
-	private File licesnseAndTerms;
+	private File licenseTerms;
 	private File lyrics;
-	private String previousHash;
-	private List<Transaction<T>> transactions;
+	private List<Transaction<Song>> transactions;
     
-	public Song(String previousHash, List<Transaction<T>> transactions) {
-        super(previousHash, transactions);
+	public Song(String ISRC,String publisher,String songTitle, String releaseDate,String copyrightsHolder,String copyrightRegNumber ) {        
         
-        this.previousHash = previousHash;
-        this.transactions = transactions;
-        
-        System.out.println("New Song Created");
+		this.ISRC = ISRC;
+		this.publisher = publisher;
+		this.songTitle = songTitle;
+		this.releaseDate = releaseDate;
+		this.copyrightsHolder = copyrightsHolder;
+		this.copyrightRegNumber = copyrightRegNumber;
     }
 	
 	public String getSongTitle() {
@@ -126,12 +126,12 @@ public class Song<T> extends Block<T>{
 
 
 	public File getLicesnseAndTerms() {
-		return licesnseAndTerms;
+		return licenseTerms;
 	}
 
 
 	public void setLicesnseAndTerms(File licesnseAndTerms) {
-		this.licesnseAndTerms = licesnseAndTerms;
+		this.licenseTerms = licesnseAndTerms;
 	}
 
 
@@ -145,13 +145,13 @@ public class Song<T> extends Block<T>{
 	}
 
 
-	public String getPreviousHash() {
-		return previousHash;
-	}
-
-
-	public List getTransactions() {
+	public List<Transaction<Song>> getTransactions() {
 		return transactions;
+	}
+	
+	public Transaction<Song> addTransaction(Transaction<Song> transaction) {
+		transactions.add(transaction);
+		return transaction;
 	}
 
 
