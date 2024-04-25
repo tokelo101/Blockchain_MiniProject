@@ -1,11 +1,17 @@
+
+package corelogic;
 import java.io.File;
 import java.util.List;
-
 import acsse.csc03a3.Block;
 import acsse.csc03a3.Transaction;
 
+/**
+ * 
+ * @author TM Monare 221022037
+ *
+ */
 public class Song<T> extends Block<T>{
-	
+
 	private String songTitle;
 	private String artists[];
 	private String composers[];
@@ -19,9 +25,8 @@ public class Song<T> extends Block<T>{
 	private File lyrics;
 	private String previousHash;
 	private List<Transaction<T>> transactions;
-	
-	
-	public Song(String previousHash,List<Transaction<T>> transactions) {
+    
+	public Song(String previousHash, List<Transaction<T>> transactions) {
         super(previousHash, transactions);
         
         this.previousHash = previousHash;

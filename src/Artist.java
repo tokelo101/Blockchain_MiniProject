@@ -1,3 +1,4 @@
+import corelogic.Song;
 
 public class Artist {
 
