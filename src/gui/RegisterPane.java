@@ -99,10 +99,10 @@ public class RegisterPane extends StackPane {
 	                		 " | Your private Key is: " + newuser.getPrivateKey());
 	                alert.showAndWait();
 	                
-	                UploadSong uploadsong = new UploadSong(content, primaryStage);
+	                HomePane home = new HomePane(primaryStage);
 	            	this.getChildren().remove(0);
 	            	content.getChildren().remove(0);
-	            	content.getChildren().addAll(uploadsong);
+	            	content.getChildren().addAll(home);
 	            	
 	                
 	        	}else {
