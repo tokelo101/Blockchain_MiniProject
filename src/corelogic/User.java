@@ -16,6 +16,7 @@ public class User implements Serializable{
 	private String password;
 	private String PRIVATE_KEY;
 	private String PUBLIC_KEY;
+	private String ADDRESS;
 	
 	
 	public User(String usertype, String name, String surname, String email, String password) {
@@ -71,6 +72,10 @@ public class User implements Serializable{
 	
 	public String getPublicKey() {
 		return PUBLIC_KEY;
+	}
+	
+	public String getAddress() {
+		return ADDRESS;
 	}
 	
 	

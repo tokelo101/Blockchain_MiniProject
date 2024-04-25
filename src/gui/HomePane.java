@@ -35,6 +35,7 @@ public class HomePane extends StackPane {
     
     //Navigation Contents [Panes]
     private RegisterPane register;
+    private UserAuthentication login;
     private UploadSong uploadsong;
     
     public HomePane(Stage primaryStage) {
@@ -102,6 +103,14 @@ public class HomePane extends StackPane {
         	content.getChildren().remove(0);
         	content.getChildren().addAll(uploadsong);
         	this.getChildren().add(mainBox);
+        	
+        });
+        
+        navLogout.setOnAction(event->{
+        	login = new UserAuthentication(primaryStage);
+        	this.getChildren().remove(0);
+        	content.getChildren().remove(0);
+        	this.getChildren().add(login);
         	
         });
     }
