@@ -9,6 +9,10 @@ import java.util.Random;
  */
 public class User implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1877220730484612929L;
 	private String usertype;
 	private String name;
 	private String surname;

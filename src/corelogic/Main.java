@@ -1,5 +1,4 @@
 package corelogic;
-import gui.HomePane;
 import gui.UserAuthentication;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,7 +29,7 @@ public class Main extends Application{
     	UserAuthentication login = new UserAuthentication(primaryStage);
         Scene root = new Scene(login, 750, 500);
 
-        primaryStage.setTitle("Music Rights Keeper");
+        primaryStage.setTitle("Music Copyrights Hub");
         primaryStage.setScene(root);
         primaryStage.show();
     }

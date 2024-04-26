@@ -84,7 +84,7 @@ public class RegisterPane extends StackPane {
 	        	String name = txtName.getText();
 	        	String surname = txtSurname.getText();
 	        	String email = txtEmail.getText();
-	        	String _password = password.getText();
+	        	String _password = password.getText();  //TODO: Encrypt the password
 	        	
 	        	User newuser = new User(usertype, name, surname, email, _password);
 	        	//use userhandler to save user to file
@@ -99,7 +99,7 @@ public class RegisterPane extends StackPane {
 	                		 " | Your private Key is: " + newuser.getPrivateKey());
 	                alert.showAndWait();
 	                
-	                HomePane home = new HomePane(primaryStage);
+	                HomePane home = new HomePane(primaryStage, newuser);
 	            	this.getChildren().remove(0);
 	            	content.getChildren().remove(0);
 	            	content.getChildren().addAll(home);

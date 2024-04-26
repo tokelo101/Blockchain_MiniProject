@@ -7,11 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import acsse.csc03a3.Transaction;
 
 public class Artist extends User{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String filePath = "data/songs_.bin"; //Will be uniquely identified by the International Standard Recording Code
 	
 	public Artist(String usertype, String name, String surname, String email, String password) {
@@ -38,8 +43,13 @@ public class Artist extends User{
 		
 		return status;
 	}
-	
-	private Song GetSong(String ISRC){
+
+	/**
+	 * 
+	 * @param ISRC International Standard Recording Code is a Unique Identifier of a song
+	 * @return song the song to be returned
+	 */
+	public Song GetSong(String ISRC){
 		
 		Song song = null;
 		
@@ -50,7 +60,7 @@ public class Artist extends User{
 				while (true) {
 				    try{
 				    	Object obj = obj_is.readObject();
-				    	if(obj instanceof User) {
+				    	if(obj instanceof Song) {
 							Song tempSong = (Song)obj;
 							if(tempSong.getISRC().equals(ISRC)) {
 								song = tempSong;
@@ -72,6 +82,39 @@ public class Artist extends User{
 		
 		return song;
 	}
+	
+	
+public ArrayList<Song> GetAllSongs(){
+		
+		ArrayList<Song> songs = new ArrayList<Song>();
+		
+		try(FileInputStream fis = new FileInputStream(filePath);
+				ObjectInputStream obj_is = new ObjectInputStream(fis)) {
+				
+				
+				while (true) {
+				    try{
+				    	Object obj = obj_is.readObject();
+				    	if(obj instanceof Song) {
+							Song tempSong = (Song)obj;
+							songs.add(tempSong);
+						}
+				    } catch (EOFException e) {
+				      break;
+				    }
+				}
+				
+			}catch (IOException ioe) {
+				ioe.printStackTrace();
+			}catch (ClassNotFoundException cnfe) {
+				cnfe.printStackTrace();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return songs;
+	}
+	
 	
 	/**
 	 * 
@@ -102,7 +145,7 @@ public class Artist extends User{
 		//Update License terms
 		updatedSong.setLicesnseAndTerms(licenceTerms);
 		//Create a transaction
-		Transaction<Song> transaction = new Transaction(this.getAddress(), "", updatedSong);   //NOTE: update licenseTerms can't be a transaction between sender and receiver 
+		Transaction<Song> transaction = new Transaction<Song>(this.getAddress(), null, updatedSong);   //NOTE: update licenseTerms can't be a transaction between sender and receiver 
 		updatedSong.addTransaction(transaction);
 		//Add to temporary transaction list file
 			//send updated transaction list to peers on the network

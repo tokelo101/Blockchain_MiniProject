@@ -1,5 +1,6 @@
 package gui;
 
+import corelogic.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ public class HomePane extends StackPane {
     private Pane content;
     private TextField txtSearchBox;
     private Button btnSearchButton;
+    //private User user;
     
     //Navigation items
     private Button navSettings;
@@ -38,8 +40,9 @@ public class HomePane extends StackPane {
     private UserAuthentication login;
     private UploadSong uploadsong;
     
-    public HomePane(Stage primaryStage) {
+    public HomePane(Stage primaryStage, User user) {
     	
+    	//this.user = user;
     	mainBox = new VBox();
         mainBox.setAlignment(Pos.TOP_CENTER);
         
@@ -98,7 +101,7 @@ public class HomePane extends StackPane {
         });
         
         navUploadSong.setOnAction(event->{
-        	uploadsong = new UploadSong(content, primaryStage);
+        	uploadsong = new UploadSong(content, primaryStage, user);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	content.getChildren().addAll(uploadsong);
