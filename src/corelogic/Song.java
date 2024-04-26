@@ -2,7 +2,6 @@
 package corelogic;
 import java.io.File;
 import java.util.List;
-import acsse.csc03a3.Block;
 import acsse.csc03a3.Transaction;
 
 /**
@@ -10,7 +9,7 @@ import acsse.csc03a3.Transaction;
  * @author TM Monare 221022037
  *
  */
-public class Song{
+public class Song {
 
 	private String songTitle;
 	private String artists[];

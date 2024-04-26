@@ -1,9 +1,12 @@
 package gui;
 
+import corelogic.User;
 import corelogic.UserHandler;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -23,6 +26,10 @@ public class UserAuthentication extends StackPane{
 	private TextField txtEmail;
 	private PasswordField password;
 	private HBox content;
+	private int LoginAttemptCount = 3;
+	private static final int COUNTDOWN_SECONDS = 30;
+	private Alert alert;
+	private AnimationTimer countdownTimer;
 	
 	public UserAuthentication(Stage primaryStage) {
 		
@@ -74,10 +81,34 @@ public class UserAuthentication extends StackPane{
        this.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
         
        btnLogin.setOnAction(event->{
-    	 	HomePane home = new HomePane(primaryStage);
-        	this.getChildren().remove(0);
-        	this.getChildren().remove(0);
-        	this.getChildren().addAll(home);
+    	   
+    	   UserHandler userhandler = new UserHandler();
+   			User user = userhandler.GetUser(txtEmail.getText(), password.getText());
+   		
+    	   if(user!=null) {
+    		
+       	 	HomePane home = new HomePane(primaryStage, user);
+           	this.getChildren().remove(0);
+           	this.getChildren().remove(0);
+           	this.getChildren().addAll(home);
+           	
+           }else {
+    		   
+    		   if(LoginAttemptCount <= 3 && LoginAttemptCount > 0) {
+    			   Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                   alert.setTitle("Login Failed");
+                   alert.setHeaderText("Incorrect Email or Password");
+                   alert.setContentText(LoginAttemptCount + " Remaining, please try again");
+                   alert.showAndWait();
+    		   }else {
+    			   Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                   alert.setTitle("Login Failed");
+                   alert.setHeaderText("Incorrect Email or Password");
+                   alert.setContentText("Please Wait "+COUNTDOWN_SECONDS +" Seconds and try Again");
+                   alert.showAndWait();
+               }
+    	   }
+    	   LoginAttemptCount --;
        });
         
        btnRegister.setOnAction(event->{

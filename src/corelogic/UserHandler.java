@@ -1,7 +1,5 @@
 package corelogic;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A class that manages the Artist class
@@ -57,9 +55,14 @@ public class UserHandler{
 	 * @param publicKey a public key used to uniquely identify an artist
 	 * @return artist an artist object read from a binary file
 	 */
-	public User GetUser(String publicKey) {
+	public User GetUser(String address) {
 		//Reading arist data from a binary File
-		return ReadUser(publicKey);
+		return ReadUser(address);
+	}
+	
+	public User GetUser(String email, String password) {
+		//Reading arist data from a binary File
+		return ReadUser(email, password);
 	}
 	
 	/**
@@ -67,7 +70,7 @@ public class UserHandler{
 	 * @param publicKey a public key used to uniquely identify an artist
 	 * @return artist an artist object read from a binary file
 	 */
-	private User ReadUser(String publicKey) {
+	private User ReadUser(String address) {
 		User user = null;
 		
 		try(FileInputStream fis = new FileInputStream(filePath);
@@ -79,7 +82,7 @@ public class UserHandler{
 			    	Object obj = obj_is.readObject();
 			    	if(obj instanceof User) {
 						User tempUser = (User)obj;
-						if(tempUser.getPublicKey().equals(publicKey)) {
+						if(tempUser.getAddress().equals(address)) {
 							user = tempUser;
 							break;
 						}
@@ -88,7 +91,6 @@ public class UserHandler{
 			      break;
 			    }
 			}
-			
 			
 		}catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -101,6 +103,42 @@ public class UserHandler{
 		return user;
 	}
 	
-	
+	/**
+	 * 
+	 * @param publicKey a public key used to uniquely identify an artist
+	 * @return artist an artist object read from a binary file
+	 */
+	private User ReadUser(String email, String password) {
+		User user = null;
+		
+		try(FileInputStream fis = new FileInputStream(filePath);
+			ObjectInputStream obj_is = new ObjectInputStream(fis)) {
+			
+			
+			while (true) {
+			    try{
+			    	Object obj = obj_is.readObject();
+			    	if(obj instanceof User) {
+						User tempUser = (User)obj;
+						if(tempUser.getEmail().equals(email) && tempUser.getPassword().equals(password)){
+							user = tempUser;
+							break;
+						}
+					}
+			    } catch (EOFException e) {
+			      break;
+			    }
+			}
+			
+		}catch (IOException ioe) {
+			ioe.printStackTrace();
+		}catch (ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
 	
 }
