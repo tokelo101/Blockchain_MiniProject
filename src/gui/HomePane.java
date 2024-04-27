@@ -34,12 +34,12 @@ public class HomePane extends StackPane {
     private Button navUpdateLicenseTerms;
     private Button navRegister;
     private Button navLogout;
-    private Button navLogin;
     
     //Navigation Contents [Panes]
     private RegisterPane register;
     private UserAuthentication login;
     private UploadSong uploadsong;
+    private SongsView songsView;
     
     public HomePane(Stage primaryStage, User user) {
     	
@@ -76,12 +76,10 @@ public class HomePane extends StackPane {
         navSongList.setPrefWidth(200);
         navUpdateLicenseTerms = new Button("Update License Terms");
         navUpdateLicenseTerms.setPrefWidth(200);
-        navLogin = new Button("Login");
-        navLogin.setPrefWidth(200);
         navLogout = new Button("Logout");
         navLogout.setPrefWidth(200);
         
-        navBox.getChildren().addAll(navRegister, navSettings, navUploadSong, navSongList, navUpdateLicenseTerms, navLogin, navLogout);
+        navBox.getChildren().addAll(navRegister, navSettings, navUploadSong, navSongList, navUpdateLicenseTerms,navLogout);
         
         content.setPrefWidth(500);
         content.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
@@ -106,6 +104,15 @@ public class HomePane extends StackPane {
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	content.getChildren().addAll(uploadsong);
+        	this.getChildren().add(mainBox);
+        	
+        });
+        
+         navSongList.setOnAction(event->{
+        	songsView = new SongsView(content, primaryStage, (Artist)user);
+        	this.getChildren().remove(0);
+        	content.getChildren().remove(0);
+        	content.getChildren().addAll(songsView);
         	this.getChildren().add(mainBox);
         	
         });

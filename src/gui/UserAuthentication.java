@@ -80,12 +80,16 @@ public class UserAuthentication extends StackPane{
       
         Label tempField = new Label();
        this.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
-        
+	   
+       //Test Purposes
+       txtEmail.setText("tm@mail.com");
+	   password.setText("tm");
+	   
        btnLogin.setOnAction(event->{
     	   
     	   UserHandler userhandler = new UserHandler();
-   			User user = userhandler.GetUser(txtEmail.getText(), password.getText());
-   		
+   		User user = userhandler.GetUser(txtEmail.getText(), password.getText());
+    	
     	   if(user!=null) {
     		   
     		 //Navigate to Distributor UI
