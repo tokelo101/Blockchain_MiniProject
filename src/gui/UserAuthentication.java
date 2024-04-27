@@ -1,5 +1,6 @@
 package gui;
 
+import corelogic.Artist;
 import corelogic.User;
 import corelogic.UserHandler;
 import javafx.animation.AnimationTimer;
@@ -86,11 +87,24 @@ public class UserAuthentication extends StackPane{
    			User user = userhandler.GetUser(txtEmail.getText(), password.getText());
    		
     	   if(user!=null) {
-    		
-       	 	HomePane home = new HomePane(primaryStage, user);
-           	this.getChildren().remove(0);
-           	this.getChildren().remove(0);
-           	this.getChildren().addAll(home);
+    		   
+    		 //Navigate to Distributor UI
+       	 	if(user.getUserType().equals("Artist")) {
+       	 		Artist artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+       	 		//Artist artist = (Artist) user;
+       	 		HomePane home = new HomePane(primaryStage, artist);
+       	 		this.getChildren().remove(0);
+       	 		this.getChildren().remove(0);
+       	 		this.getChildren().addAll(home);
+       	 	}
+       	 	//Navigate to Distributor UI
+       	 if(user.getUserType().equals("Distributor")) {
+    	 		Artist artist = (Artist)user;
+    	 		HomePane home = new HomePane(primaryStage, artist);
+    	 		this.getChildren().remove(0);
+    	 		this.getChildren().remove(0);
+    	 		this.getChildren().addAll(home);
+    	 	}
            	
            }else {
     		   

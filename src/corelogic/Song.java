@@ -1,6 +1,7 @@
 
 package corelogic;
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import acsse.csc03a3.Transaction;
 
@@ -9,8 +10,12 @@ import acsse.csc03a3.Transaction;
  * @author TM Monare 221022037
  *
  */
-public class Song {
+public class Song implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String songTitle;
 	private String artists[];
 	private String composers[];

@@ -1,5 +1,6 @@
 package gui;
 
+import corelogic.Artist;
 import corelogic.Song;
 import corelogic.User;
 import javafx.geometry.HPos;
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
  */
 public class UploadSong extends GridPane{
 	
-	public UploadSong(Pane content, Stage primaryStage, User user) {
+	public UploadSong(Pane content, Stage primaryStage, Artist user) {
 		GridPane frmUploadsong = new GridPane();
         frmUploadsong.setAlignment(Pos.CENTER);
         frmUploadsong.setHgap(10);

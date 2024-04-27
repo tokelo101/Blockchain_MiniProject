@@ -1,5 +1,6 @@
 package gui;
 
+import corelogic.Artist;
 import corelogic.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -56,7 +57,7 @@ public class HomePane extends StackPane {
         txtSearchBox = new TextField();
         txtSearchBox.setPromptText("search");
         
-        btnSearchButton = new Button("Search Icon");
+        btnSearchButton = new Button("Search 🔍");
         searchBox.getChildren().addAll(txtSearchBox, btnSearchButton);
         
         
@@ -101,7 +102,7 @@ public class HomePane extends StackPane {
         });
         
         navUploadSong.setOnAction(event->{
-        	uploadsong = new UploadSong(content, primaryStage, user);
+        	uploadsong = new UploadSong(content, primaryStage, (Artist)user);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	content.getChildren().addAll(uploadsong);
