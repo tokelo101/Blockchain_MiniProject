@@ -18,32 +18,45 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class HomePane extends StackPane {
-    private VBox mainBox;
+    
+	private Stage primaryStage;
+    private User user;
+	
+	private VBox mainBox;
     private HBox searchBox;
     private HBox subBox; //Contains the navigation Box and the Content Box 
     private VBox navBox;
     private Pane content;
     private TextField txtSearchBox;
     private Button btnSearchButton;
-    //private User user;
     
-    //Navigation items
+    //Navigation items [General]
     private Button navSettings;
-    private Button navUploadSong;
     private Button navSongList;
-    private Button navUpdateLicenseTerms;
-    private Button navRegister;
     private Button navLogout;
     
+    //Navigation items [Artist]
+    private Button navUploadSong;
+    private Button navUpdateLicenseTerms;
+    
+    
+  //Navigation items [Distibutor]
+    private Button Buy_CopyRights;
+    private Button Buy_SyncronizatoinRights;
+    private Button Buy_Performance_Rights;
+    private Button Buy_Mechanical_Rights;
+    private Button Buy_Masters_Rights;
+    
     //Navigation Contents [Panes]
-    private RegisterPane register;
+    //private RegisterPane register;
     private UserAuthentication login;
     private UploadSong uploadsong;
     private SongsView songsView;
     
     public HomePane(Stage primaryStage, User user) {
+    	this.primaryStage = primaryStage;
+    	this.user = user;
     	
-    	//this.user = user;
     	mainBox = new VBox();
         mainBox.setAlignment(Pos.TOP_CENTER);
         
@@ -66,20 +79,69 @@ public class HomePane extends StackPane {
         navBox.setPadding(new Insets(10,10,10,10));
         navBox.setSpacing(10);
         
-        navRegister = new Button("Register");
-        navRegister.setPrefWidth(200);
         navSettings = new Button("Settings");
         navSettings.setPrefWidth(200);
-        navUploadSong = new Button("Upload Song");
-        navUploadSong.setPrefWidth(200);
-        navSongList = new Button("Song List");
-        navSongList.setPrefWidth(200);
-        navUpdateLicenseTerms = new Button("Update License Terms");
-        navUpdateLicenseTerms.setPrefWidth(200);
+        
         navLogout = new Button("Logout");
         navLogout.setPrefWidth(200);
         
-        navBox.getChildren().addAll(navRegister, navSettings, navUploadSong, navSongList, navUpdateLicenseTerms,navLogout);
+        
+        //Set Navigation By user Type
+        setNavigation(user.getUserType());
+        
+        
+        navLogout.setOnAction(event->{
+        	login = new UserAuthentication(primaryStage);
+        	this.getChildren().remove(0);
+        	content.getChildren().remove(0);
+        	this.getChildren().add(login);
+        	
+        });
+    }
+	
+    /**
+     * 
+     * @param userType the navigation bar will be set depending on the user Type that has logged in.
+     */
+    private void setNavigation(String userType) {
+    	
+    	switch(userType){
+    	case "Artist":{
+    		setArtistNav();
+    	}break;
+    	case "Distributor":{
+    		setClientsNav();
+    	}break;
+    	case "Publisher":{
+    		setClientsNav();
+    	}break;
+    	case "Record Label":{
+    		setClientsNav();
+    	}break;
+    	case "Validator":{
+    		setClientsNav();
+    	}break;
+    	default:{
+    		System.err.println("Invalid User Type");
+    	}
+    	}
+    }
+    
+    /**
+     * Artist Navigation Bar
+     */
+    private void setArtistNav() {
+    	navUploadSong = new Button("Upload Song");
+        navUploadSong.setPrefWidth(200);
+        
+        navSongList = new Button("Song List");
+        navSongList.setPrefWidth(200);
+        
+        navUpdateLicenseTerms = new Button("Update License Terms");
+        navUpdateLicenseTerms.setPrefWidth(200);
+       
+        
+        navBox.getChildren().addAll(navSettings, navUploadSong, navSongList, navUpdateLicenseTerms,navLogout);
         
         content.setPrefWidth(500);
         content.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
@@ -91,15 +153,11 @@ public class HomePane extends StackPane {
         Label tempField = new Label();
         content.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
         
-        navRegister.setOnAction(event->{
-        	register = new RegisterPane(content, primaryStage);
-        	this.getChildren().remove(0);
-        	content.getChildren().remove(0);
-        	content.getChildren().addAll(register);
-        	this.getChildren().add(mainBox);
-        });
         
-        navUploadSong.setOnAction(event->{
+        
+        
+    	
+    	navUploadSong.setOnAction(event->{
         	uploadsong = new UploadSong(content, primaryStage, (Artist)user);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
@@ -116,16 +174,14 @@ public class HomePane extends StackPane {
         	this.getChildren().add(mainBox);
         	
         });
-        
-        navLogout.setOnAction(event->{
-        	login = new UserAuthentication(primaryStage);
-        	this.getChildren().remove(0);
-        	content.getChildren().remove(0);
-        	this.getChildren().add(login);
-        	
-        });
     }
-	
+    
+    /**
+     * Distributor/Publisher/Record Label Navigation Bar
+     */
+    private void setClientsNav() {
+    	
+    }
 	
 }
 

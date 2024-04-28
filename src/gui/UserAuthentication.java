@@ -1,6 +1,7 @@
 package gui;
 
 import corelogic.Artist;
+import corelogic.Distributor;
 import corelogic.User;
 import corelogic.UserHandler;
 import javafx.animation.AnimationTimer;
@@ -56,8 +57,8 @@ public class UserAuthentication extends StackPane{
         GridPane.setHalignment(lbTitle, HPos.CENTER);
 
         
-        Label lbName = new Label("Name:");
-        gridPane.add(lbName, 0, 1);
+        Label lbEmail = new Label("Email:");
+        gridPane.add(lbEmail, 0, 1);
 
         txtEmail = new TextField();
         gridPane.add(txtEmail, 1, 1);
@@ -82,32 +83,32 @@ public class UserAuthentication extends StackPane{
        this.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
 	   
        //Test Purposes
-       txtEmail.setText("tm@mail.com");
-	   password.setText("tm");
+       //txtEmail.setText("tm@mail.com");
+	   //password.setText("tm");
 	   
        btnLogin.setOnAction(event->{
     	   
-    	   UserHandler userhandler = new UserHandler();
+    	UserHandler userhandler = new UserHandler();
    		User user = userhandler.GetUser(txtEmail.getText(), password.getText());
     	
-    	   if(user!=null) {
+    	 if(user!=null) {
     		   
     		 //Navigate to Distributor UI
-       	 	if(user.getUserType().equals("Artist")) {
-       	 		Artist artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
-       	 		//Artist artist = (Artist) user;
-       	 		HomePane home = new HomePane(primaryStage, artist);
-       	 		this.getChildren().remove(0);
-       	 		this.getChildren().remove(0);
-       	 		this.getChildren().addAll(home);
+       	 if(user.getUserType().equals("Artist")) {
+       	 	Artist artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+       	 	//Artist artist = (Artist) user;
+       	 	HomePane home = new HomePane(primaryStage, artist);
+       	 	this.getChildren().remove(0);
+       	 	this.getChildren().remove(0);
+       	 	this.getChildren().addAll(home);
        	 	}
        	 	//Navigate to Distributor UI
        	 if(user.getUserType().equals("Distributor")) {
-    	 		Artist artist = (Artist)user;
-    	 		HomePane home = new HomePane(primaryStage, artist);
-    	 		this.getChildren().remove(0);
-    	 		this.getChildren().remove(0);
-    	 		this.getChildren().addAll(home);
+       		Distributor distributor = new Distributor(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+    	 	HomePane home = new HomePane(primaryStage, distributor);
+    	 	this.getChildren().remove(0);
+    	 	this.getChildren().remove(0);
+    	 	this.getChildren().addAll(home);
     	 	}
            	
            }else {

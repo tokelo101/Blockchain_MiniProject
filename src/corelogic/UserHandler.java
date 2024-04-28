@@ -31,13 +31,7 @@ public class UserHandler{
 		//File usersfile = new File(filePath);
 		
 		boolean status = false;
-//		 if (!usersfile.exists()) {
-//	            try {
-//					usersfile.createNewFile();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//	        }
+
 		 
 		try(FileOutputStream fos = new FileOutputStream(filePath, true);
 			ObjectOutputStream obj_os = new ObjectOutputStream(fos)){
@@ -61,14 +55,14 @@ public class UserHandler{
 	}
 	
 	public User GetUser(String email, String password) {
-		//Reading arist data from a binary File
+		//Reading user data from a binary File
 		return ReadUser(email, password);
 	}
 	
 	/**
 	 * 
-	 * @param publicKey a public key used to uniquely identify an artist
-	 * @return artist an artist object read from a binary file
+	 * @param address a public key used to uniquely identify a user
+	 * @return user a user object read from a binary file
 	 */
 	private User ReadUser(String address) {
 		User user = null;
@@ -105,8 +99,9 @@ public class UserHandler{
 	
 	/**
 	 * 
-	 * @param publicKey a public key used to uniquely identify an artist
-	 * @return artist an artist object read from a binary file
+	 * @param email user email address
+	 * @param password user password
+	 * @return
 	 */
 	private User ReadUser(String email, String password) {
 		User user = null;
@@ -116,24 +111,24 @@ public class UserHandler{
 			
 			
 			while (true) {
-			    try{
-			    	Object obj = obj_is.readObject();
-			    	if(obj instanceof User) {
-						User tempUser = (User)obj;
-						if(tempUser.getEmail().equals(email) && tempUser.getPassword().equals(password)){
-							user = tempUser;
-							break;
-						}
-					}
+			    try {
+			        Object obj = obj_is.readObject();
+			        if (obj instanceof User) {
+			            User tempUser = (User) obj;
+			            if (tempUser.getEmail().equals(email) && tempUser.getPassword().equals(password)) {
+			                user = tempUser;
+			                break;
+			            }
+			        }
 			    } catch (EOFException e) {
-			      break;
+			        break;
+			    } catch (ClassNotFoundException e) {
+			        e.printStackTrace();
 			    }
 			}
 			
 		}catch (IOException ioe) {
 			ioe.printStackTrace();
-		}catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

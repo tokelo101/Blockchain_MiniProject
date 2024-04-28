@@ -9,10 +9,6 @@ import java.util.Random;
  */
 public class User implements Serializable{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1877220730484612929L;
 	private String usertype;
 	private String name;
 	private String surname;
@@ -47,6 +43,7 @@ public class User implements Serializable{
 		int publicK = rand.nextInt(100);
 		this.PRIVATE_KEY = String.valueOf(privateK);
 		this.PUBLIC_KEY = String.valueOf(publicK);
+		this.ADDRESS = String.valueOf(publicK)+String.valueOf(privateK);
 	}
 	
 
