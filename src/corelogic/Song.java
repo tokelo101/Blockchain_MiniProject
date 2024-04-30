@@ -1,6 +1,7 @@
 
 package corelogic;
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import acsse.csc03a3.Transaction;
 
@@ -9,8 +10,12 @@ import acsse.csc03a3.Transaction;
  * @author TM Monare 221022037
  *
  */
-public class Song {
+public class Song implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String songTitle;
 	private String artists[];
 	private String composers[];
@@ -22,6 +27,9 @@ public class Song {
 	private String copyrightRegNumber;
 	private File licenseTerms;
 	private File lyrics;
+	
+	//for a transaction
+	private String ArtistAddress;
 	private List<Transaction<Song>> transactions;
     
 	public Song(String ISRC,String publisher,String songTitle, String releaseDate,String copyrightsHolder,String copyrightRegNumber ) {        
@@ -153,7 +161,9 @@ public class Song {
 		return transaction;
 	}
 
-
+	public String getArtistAddress() {
+		return ArtistAddress;
+	}
 	
     
 }

@@ -9,10 +9,6 @@ import java.util.Random;
  */
 public class User implements Serializable{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1877220730484612929L;
 	private String usertype;
 	private String name;
 	private String surname;
@@ -35,6 +31,50 @@ public class User implements Serializable{
 		GenerateKeys();
 	}
 	
+	public String getPRIVATE_KEY() {
+		return PRIVATE_KEY;
+	}
+
+	public void setPRIVATE_KEY(String pRIVATE_KEY) {
+		PRIVATE_KEY = pRIVATE_KEY;
+	}
+
+	public String getPUBLIC_KEY() {
+		return PUBLIC_KEY;
+	}
+
+	public void setPUBLIC_KEY(String pUBLIC_KEY) {
+		PUBLIC_KEY = pUBLIC_KEY;
+	}
+
+	public String getADDRESS() {
+		return ADDRESS;
+	}
+
+	public void setADDRESS(String aDDRESS) {
+		ADDRESS = aDDRESS;
+	}
+
+	public void setUsertype(String usertype) {
+		this.usertype = usertype;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	/**
 	 * This method Generates the Private and Public Key when a new user is created
 	 */
@@ -47,6 +87,7 @@ public class User implements Serializable{
 		int publicK = rand.nextInt(100);
 		this.PRIVATE_KEY = String.valueOf(privateK);
 		this.PUBLIC_KEY = String.valueOf(publicK);
+		this.ADDRESS = String.valueOf(publicK)+String.valueOf(privateK);
 	}
 	
 

@@ -1,0 +1,5 @@
+Artist,tokelo,monare,tm@mail.com,tm,0,64,640
+Distributor,Rob,Kong,rk@mail.com,rk,59,32,3259
+Record label,Jama,kulo,jk@mail.com,jk,28,81,8128
+Artist,Tom,lee,tl@mail.com,tl,32,29,2932
+Artist,Zahara,Mtukwana,zm@mail.com,zm,68,25,2568
