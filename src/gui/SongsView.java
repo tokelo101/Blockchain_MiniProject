@@ -1,6 +1,7 @@
 package gui;
 
 import corelogic.Artist;
+import corelogic.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
@@ -21,7 +22,7 @@ public class SongsView extends StackPane{
 	private PasswordField password;
 	
 	
-	public SongsView(Pane content, Stage primaryStage, Artist user) {
+	public SongsView(Pane content, Stage primaryStage, User user) {
 		container = new HBox();
 		songDetails = new GridPane();
 		//Read Songs from File
@@ -51,41 +52,39 @@ public class SongsView extends StackPane{
         Label lbSongTitle = new Label("Song Title:");
         songDetails.add(lbSongTitle, 0, 1);
 
-        TextField txtSongTitle = new TextField();
-        songDetails.add(txtSongTitle, 1, 1);
+        Label lbSongTitle_value = new Label("Sweet Melodies");
+        songDetails.add(lbSongTitle_value, 1, 1);
                 
         Label lbComposer = new Label("Composer:" );
         songDetails.add(lbComposer, 0, 2);
 
-        TextField txtComposer = new TextField();
-        songDetails.add(txtComposer, 1, 2);
+        Label lbComposer_value = new Label("DJ Ace");
+        songDetails.add(lbComposer_value, 1, 2);
         
 
         Label lbLyricist = new Label("Lyricist:");
         songDetails.add(lbLyricist, 0, 3);
 
-        TextField txtLyricist = new TextField();
-        songDetails.add(txtLyricist, 1, 3);
+        Label lbLyricist_value = new Label("DJ Ace");
+        songDetails.add(lbLyricist_value, 1, 3);
 
         Label lbReleaseDate = new Label("Release Date:");
         songDetails.add(lbReleaseDate, 0, 4);
 
-        DatePicker dtReleaseDate = new DatePicker();
+        Label dtReleaseDate = new Label("27-04-2024");
         songDetails.add(dtReleaseDate, 1, 4);
 
         Label lbPublisher = new Label("Publisher:");
         songDetails.add(lbPublisher, 0, 5);
 
-        TextField txtPublisher = new TextField();
-        songDetails.add(txtPublisher, 1, 5);
+        Label lbPublisher_value = new Label("Ace Studios");
+        songDetails.add(lbPublisher_value, 1, 5);
         
         Label lbISRC = new Label("ISRC:");
         songDetails.add(lbISRC, 0, 6);
 
-        TextField txtISRC = new TextField();
-        songDetails.add(txtISRC, 1, 6);        
-        
-        
+        Label lbISRC_value = new Label("RSA-24-Ace-0001");
+        songDetails.add(lbISRC_value, 1, 6);        
         
         
 		//put songs on the list view

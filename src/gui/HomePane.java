@@ -1,9 +1,15 @@
 package gui;
 
+import acsse.csc03a3.Transaction;
 import corelogic.Artist;
+import corelogic.BlockHandler;
+import corelogic.Distributor;
+import corelogic.Song;
+import corelogic.SongTransaction;
 import corelogic.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,13 +21,24 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class HomePane extends StackPane {
     
 	private Stage primaryStage;
     private User user;
+	private Song selectedSong;
+	private BlockHandler blockhandler;
 	
+    //User Funds Account
+    private HBox fundsBox;
+    private VBox accountBox;
+    private Label lbfunds;
+    private Button btnLoadFunds;
+    private Label lbbalance;
+    
 	private VBox mainBox;
     private HBox searchBox;
     private HBox subBox; //Contains the navigation Box and the Content Box 
@@ -41,11 +58,11 @@ public class HomePane extends StackPane {
     
     
   //Navigation items [Distibutor]
-    private Button Buy_CopyRights;
-    private Button Buy_SyncronizatoinRights;
-    private Button Buy_Performance_Rights;
-    private Button Buy_Mechanical_Rights;
-    private Button Buy_Masters_Rights;
+    private Button navBuy_CopyRights;
+    private Button navBuy_SyncronizatoinRights;
+    private Button navBuy_Performance_Rights;
+    private Button navBuy_Mechanical_Rights;
+    private Button navBuy_Masters_Rights;
     
     //Navigation Contents [Panes]
     //private RegisterPane register;
@@ -56,6 +73,8 @@ public class HomePane extends StackPane {
     public HomePane(Stage primaryStage, User user) {
     	this.primaryStage = primaryStage;
     	this.user = user;
+    	blockhandler = new BlockHandler();
+    	
     	
     	mainBox = new VBox();
         mainBox.setAlignment(Pos.TOP_CENTER);
@@ -153,9 +172,6 @@ public class HomePane extends StackPane {
         Label tempField = new Label();
         content.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
         
-        
-        
-        
     	
     	navUploadSong.setOnAction(event->{
         	uploadsong = new UploadSong(content, primaryStage, (Artist)user);
@@ -181,7 +197,98 @@ public class HomePane extends StackPane {
      */
     private void setClientsNav() {
     	
+    	fundsBox = new HBox();
+        accountBox = new VBox();
+    	lbbalance = new Label("Available Funds");
+    	lbfunds = new Label("R 5000.00");
+        lbfunds.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        lbfunds.setTextFill(Color.GREEN);
+        btnLoadFunds = new Button("Load Funds");
+    	btnLoadFunds.setPrefWidth(200);
+    	
+        fundsBox.setSpacing(10);
+        fundsBox.getChildren().addAll(lbbalance, lbfunds);
+        accountBox.setSpacing(10);
+        accountBox.getChildren().addAll(fundsBox ,btnLoadFunds);
+    	
+    	navSongList = new Button("Song List");
+        navSongList.setPrefWidth(200);
+        
+    	navBuy_CopyRights = new Button("Buy Copy Rights");
+    	navBuy_CopyRights.setPrefWidth(200);
+    	
+        navBuy_SyncronizatoinRights = new Button("Buy Sysncronization Rights");
+        navBuy_SyncronizatoinRights.setPrefWidth(200);
+        
+        navBuy_Performance_Rights = new Button(" Buy Performance Rights");
+        navBuy_Performance_Rights.setPrefWidth(200);
+        
+        navBuy_Mechanical_Rights = new Button("Buy Mechanical Rights");
+        navBuy_Mechanical_Rights.setPrefWidth(200);
+        
+        navBuy_Masters_Rights = new Button("Buy Masters Rights");
+        navBuy_Masters_Rights.setPrefWidth(200);
+        
+        
+        navBox.getChildren().addAll(navSongList,navBuy_CopyRights, navBuy_SyncronizatoinRights, navBuy_Performance_Rights,navBuy_Mechanical_Rights, navBuy_Masters_Rights, navLogout);
+        
+        content.setPrefWidth(500);
+        content.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
+        subBox.getChildren().addAll(navBox, content);
+        
+        mainBox.getChildren().addAll(searchBox, subBox, accountBox);
+        this.getChildren().addAll(mainBox);
+        
+        Label tempField = new Label();
+        content.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
+        
+        
+        navSongList.setOnAction(event->{
+        	songsView = new SongsView(content, primaryStage, (Distributor)user);
+        	this.getChildren().remove(0);
+        	content.getChildren().remove(0);
+        	content.getChildren().addAll(songsView);
+        	this.getChildren().add(mainBox);
+        });
+        
+        
+        navBuy_CopyRights.setOnAction(event->{
+        	
+        	String artistAddress  = selectedSong.getArtistAddress() ;
+        	if(selectedSong == null) {
+        		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Purchase Transaction");
+                alert.setHeaderText("Transaction Falied");
+                alert.setContentText("You have to select a song first!");
+                alert.showAndWait();
+        	}else {
+        		
+        		SongTransaction songtransaction = new SongTransaction(selectedSong, "CopyRights");
+        		Transaction<SongTransaction> transaction = new Transaction<SongTransaction>(user.getADDRESS(), artistAddress, songtransaction);
+        		
+        		boolean TransactionAdded = blockhandler.addTransaction(transaction);
+            	
+        		if(TransactionAdded==true) {
+        			BuyView buyview= new BuyView();
+                	this.getChildren().remove(0);
+                	content.getChildren().remove(0);
+                	content.getChildren().addAll(buyview);
+                	this.getChildren().add(mainBox);
+        		}else {
+        			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Purchase Transaction");
+                    alert.setHeaderText("Transaction Falied");
+                    alert.setContentText("Something went wrong, Please Try Again!");
+                    alert.showAndWait();
+        		}
+            	
+        	}
+        	
+        });
+        
+        
     }
+    
 	
 }
 

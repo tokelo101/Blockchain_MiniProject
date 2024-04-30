@@ -27,6 +27,9 @@ public class Song implements Serializable{
 	private String copyrightRegNumber;
 	private File licenseTerms;
 	private File lyrics;
+	
+	//for a transaction
+	private String ArtistAddress;
 	private List<Transaction<Song>> transactions;
     
 	public Song(String ISRC,String publisher,String songTitle, String releaseDate,String copyrightsHolder,String copyrightRegNumber ) {        
@@ -158,7 +161,9 @@ public class Song implements Serializable{
 		return transaction;
 	}
 
-
+	public String getArtistAddress() {
+		return ArtistAddress;
+	}
 	
     
 }

@@ -1,7 +1,7 @@
 package corelogic;
 
 public class Distributor extends User{
-	//private String company;
+	private double availableFunds;
 	
 	/**
 	 * 
@@ -11,6 +11,10 @@ public class Distributor extends User{
 	public Distributor(String usertype, String name, String surname, String email, String password) {
 		super(usertype, name, surname, email, password);
 		
+	}
+	
+	public double getAvailableFunds() {
+		return availableFunds;
 	}
 
 }
