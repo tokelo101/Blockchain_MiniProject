@@ -73,7 +73,7 @@ public class HomePane extends StackPane {
     public HomePane(Stage primaryStage, User user) {
     	this.primaryStage = primaryStage;
     	this.user = user;
-    	blockhandler = new BlockHandler();
+    	blockhandler = new BlockHandler<SongTransaction>(user);
     	
     	
     	mainBox = new VBox();
@@ -253,7 +253,7 @@ public class HomePane extends StackPane {
         
         
         navBuy_CopyRights.setOnAction(event->{
-        	
+        	selectedSong = new Song("RSA-Ace-001", "DJ Ace", "Sweet Melodies", "02-05-2024", "DJ Ace", "SR-001");
         	String artistAddress  = selectedSong.getArtistAddress() ;
         	if(selectedSong == null) {
         		Alert alert = new Alert(Alert.AlertType.INFORMATION);
