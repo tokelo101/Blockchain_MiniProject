@@ -91,7 +91,7 @@ public class LicenseAndCopyrights extends GridPane{
     		String copyrightRegNo = txtCopyrightReg.getText();
     		File licenceTerms_ = licenceTerms;
         	
-        	Song newsong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo);
+        	Song newsong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo, user);
         	newsong.setLicesnseAndTerms(licenceTerms_);
     
         	if(user instanceof Artist) {

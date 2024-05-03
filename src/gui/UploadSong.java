@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 public class UploadSong extends GridPane{
 	
 	public UploadSong(Pane content, Stage primaryStage, Artist user) {
+		
 		GridPane frmUploadsong = new GridPane();
         frmUploadsong.setAlignment(Pos.CENTER);
         frmUploadsong.setHgap(10);
@@ -90,10 +91,11 @@ public class UploadSong extends GridPane{
         	String isrc = txtISRC.getText();
     		String publisher = txtPublisher.getText();
     		String title = txtSongTitle.getText();
-    		String releaseDate = dtReleaseDate.toString();
-        	Song tempsong = new Song(isrc, publisher, title, releaseDate , null, null);
-        	tempsong.setComposers(new String[]{txtComposer.getText()});
-        	tempsong.setLyricists(new String[]{txtLyricist.getText()});
+    		String releaseDate = dtReleaseDate.getPromptText();
+    		System.out.println("Release Date: "+ releaseDate );
+    		Song tempsong = new Song(isrc, publisher, title, releaseDate , null, null, user);
+        	tempsong.setComposer(txtComposer.getText());
+        	tempsong.setLyricist(txtLyricist.getText());
         	LicenseAndCopyrights licenseandcopyrights = new LicenseAndCopyrights(content, primaryStage,user , tempsong);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);

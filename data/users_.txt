@@ -3,3 +3,4 @@ Distributor,Rob,Kong,rk@mail.com,rk,59,32,3259
 Record label,Jama,kulo,jk@mail.com,jk,28,81,8128
 Artist,Tom,lee,tl@mail.com,tl,32,29,2932
 Artist,Zahara,Mtukwana,zm@mail.com,zm,68,25,2568
+Artist,Ace,Van Harred,ace@mail.com,ace,41,91,9141

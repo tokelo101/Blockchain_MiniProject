@@ -17,9 +17,9 @@ public class Song implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String songTitle;
-	private String artists[];
-	private String composers[];
-	private String lyricists[];
+	private String artist;
+	private String composer;
+	private String lyricist;
 	private String releaseDate;
 	private String publisher;
 	private String ISRC; //International Standard Recording Code
@@ -32,7 +32,7 @@ public class Song implements Serializable{
 	private String ArtistAddress;
 	private List<Transaction<Song>> transactions;
     
-	public Song(String ISRC,String publisher,String songTitle, String releaseDate,String copyrightsHolder,String copyrightRegNumber ) {        
+	public Song(String ISRC,String publisher,String songTitle, String releaseDate,String copyrightsHolder,String copyrightRegNumber, Artist artist ) {        
         
 		this.ISRC = ISRC;
 		this.publisher = publisher;
@@ -40,6 +40,7 @@ public class Song implements Serializable{
 		this.releaseDate = releaseDate;
 		this.copyrightsHolder = copyrightsHolder;
 		this.copyrightRegNumber = copyrightRegNumber;
+		this.ArtistAddress = artist.getAddress();
     }
 	
 	public String getSongTitle() {
@@ -52,33 +53,33 @@ public class Song implements Serializable{
 	}
 
 
-	public String[] getArtists() {
-		return artists;
+	public String getArtist() {
+		return artist;
 	}
 
 
-	public void setArtists(String[] artists) {
-		this.artists = artists;
+	public void setArtist(String artist) {
+		this.artist = artist;
 	}
 
 
-	public String[] getComposers() {
-		return composers;
+	public String getComposer() {
+		return composer;
 	}
 
 
-	public void setComposers(String[] composers) {
-		this.composers = composers;
+	public void setComposer(String composer) {
+		this.composer = composer;
 	}
 
 
-	public String[] getLyricists() {
-		return lyricists;
+	public String getLyricist() {
+		return lyricist;
 	}
 
 
-	public void setLyricists(String[] lyricists) {
-		this.lyricists = lyricists;
+	public void setLyricist(String lyricist) {
+		this.lyricist = lyricist;
 	}
 
 
@@ -165,5 +166,8 @@ public class Song implements Serializable{
 		return ArtistAddress;
 	}
 	
+	public void setArtistAddress(String ArtistAddress) {
+		this.ArtistAddress = ArtistAddress;
+	}
     
 }

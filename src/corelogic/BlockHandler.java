@@ -22,7 +22,7 @@ public class BlockHandler<T> {
 		//Block<T> block = new Block("", transactions);
 	
 	public BlockHandler(User user) {
-		blockchain.registerStake(user.getADDRESS(), 10);
+		blockchain.registerStake(user.getAddress(), 10);
 	}
 	
 	public boolean addTransaction(Transaction<T> transaction) {
