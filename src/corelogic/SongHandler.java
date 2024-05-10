@@ -11,6 +11,7 @@ public class SongHandler {
 	//private String AllSongsPath = "data/Allsongs.txt";
 	private User user;
 	private Artist artistUser;
+	private Distributor distributerUser;
 	public SongHandler(User user) {
 		if(user instanceof Artist) {
 			this.user = (Artist)user;
@@ -18,6 +19,7 @@ public class SongHandler {
 		}
 		if(user instanceof Distributor) {
 			this.user = (Distributor)user;
+			distributerUser = (Distributor)user;
 		}
 //		if(user instanceof RecordLabel) {
 //			this.user = (RecordLabel)user;
@@ -97,7 +99,7 @@ public class SongHandler {
 	
 	
 	public ArrayList<Song> ReadAllSongs(){
-ArrayList<Song> songs = new ArrayList<Song>();
+		ArrayList<Song> songs = new ArrayList<Song>();
 		
 		try (FileReader fileReader = new FileReader(SongsPath);
 	             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
@@ -120,7 +122,7 @@ ArrayList<Song> songs = new ArrayList<Song>();
 		            		String artistAddress = songFields[9];
 
 
-		                    	Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, artistUser);
+		                    	Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, (Artist)UserHandler.GetUser(artistAddress));
 			                    song.setArtist(artist);
 			                    song.setComposer(composer);
 			                    song.setLyricist(lyricist);

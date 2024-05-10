@@ -10,23 +10,24 @@ import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
-public class SongsView extends StackPane{
+public class SongsView<K,V> extends StackPane{
 	
 	private HBox container;
-	private ListView<Label> songList = new ListView<>();
+	private ListView<SongEntry<K,V>> songList = new ListView<>();
 	private GridPane songDetails;
 	private TextField txtName;
 	private TextField txtSurname;
 	private TextField txtEmail;
 	private PasswordField password;
 	private Artist artist;
+	private Distributor distributor;
 	
 	public SongsView(Pane content, Stage primaryStage, User user) {
 	    container = new HBox();
 	    songDetails = new GridPane();
 
 	    // Reading Songs from File
-	    ObservableList<Label> songs = FXCollections.observableArrayList();
+	    ObservableList<SongEntry<K,V>> songs = FXCollections.observableArrayList();
 
 	    Label lbSongList;
 	    
@@ -34,19 +35,33 @@ public class SongsView extends StackPane{
 	    	 // Add items to the ObservableList
 		    lbSongList = new Label("Artist Song List");
 		    lbSongList.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		    songs.add(lbSongList);
 		    artist = (Artist)user;
+		    
+		    
 		    ArrayList<Song> artistsongs = artist.GetAllArtistSongs();
+		    
+		    
 		    for(Song s: artistsongs){
-		    	Label songlabel = new Label(s.getISRC());
-		    	songs.add(songlabel);
+		    	SongEntry<String,String> songEntry = new SongEntry(s.getISRC(), s.getSongTitle());
+		    	songs.add((SongEntry<K, V>) songEntry);
 		    }
 	    }else {
 	    	 // Add items to the ObservableList
 		    lbSongList = new Label("All Songs");
 		    lbSongList.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		    songs.add(lbSongList);
+		    // Add items to the ObservableList
+		    lbSongList = new Label("Artist Song List");
+		    lbSongList.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+		    distributor = (Distributor)user;
 		    
+		    
+		    ArrayList<Song> artistsongs = distributor.GetAllSongs();
+		    
+		    
+		    for(Song s: artistsongs){
+		    	SongEntry<String,String> songEntry = new SongEntry(s.getISRC(), s.getSongTitle());
+		    	songs.add((SongEntry<K, V>) songEntry);
+		    }
 		}
 	    
 	   
@@ -54,9 +69,7 @@ public class SongsView extends StackPane{
 	    // Song Details
 
 	    Label lbTitle = new Label("Song Details");
-	    lbTitle.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-	    songDetails.add(lbTitle, 0, 0, 2, 1);
-	    GridPane.setHalignment(lbTitle, HPos.CENTER);
+	    
 
 	    Label lbSongTitle = new Label("Song Title:");
 	    songDetails.add(lbSongTitle, 0, 1);
@@ -95,27 +108,65 @@ public class SongsView extends StackPane{
 	    songDetails.add(lbISRC_value, 1, 6);
 
 	    // Put songs on the list view
-	    songList = new ListView<>(songs);
+	    songList = new ListView<SongEntry<K,V>>(songs);
 
 	    // Add listener to handle song selection
 	    songList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 	        if (newValue != null) {
 	        	
-	        	Song song = artist.GetSong(newValue.getText());
-	            lbSongTitle_value.setText(song.getSongTitle());
-	            lbComposer_value.setText(song.getComposer());
-	            lbLyricist_value.setText(song.getLyricist());
-	            lbReleaseDate_value.setText(song.getReleaseDate());
-	            lbPublisher_value.setText(song.getPublisher());
-	            lbISRC_value.setText(song.getISRC());
+	        	Song song;
+	        	if(artist!=null) {
+	        		song = artist.GetSong((String)newValue.getKey());	
+		            lbSongTitle_value.setText(song.getSongTitle());
+		            lbComposer_value.setText(song.getComposer());
+		            lbLyricist_value.setText(song.getLyricist());
+		            lbReleaseDate_value.setText(song.getReleaseDate());
+		            lbPublisher_value.setText(song.getPublisher());
+		            lbISRC_value.setText(song.getISRC());
+	        	}
+	        	if(distributor!=null) {
+	        		song = distributor.GetSong((String)newValue.getKey());
+		            lbSongTitle_value.setText(song.getSongTitle());
+		            lbComposer_value.setText(song.getComposer());
+		            lbLyricist_value.setText(song.getLyricist());
+		            lbReleaseDate_value.setText(song.getReleaseDate());
+		            lbPublisher_value.setText(song.getPublisher());
+		            lbISRC_value.setText(song.getISRC());
+	        	}
+
+
 	        }
 	    });
+	    
+	    
+	    songList.setCellFactory(param -> new ListCell<SongEntry<K,V>>() {
+            @Override
+            protected void updateItem(SongEntry<K,V> item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText((String)item.getValue());
+                    getStyleClass().add("list-cell");
+                }
+            }
+        });
 	    
 	    //remove the previous contents
 	    //content.getChildren().remove(0);
 		//clean content
 		//container.getChildren().clear();
-	    container.getChildren().addAll(songList, songDetails);
+	    VBox songview = new VBox();
+	    this.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+	    
+	    lbTitle.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+	    songDetails.add(lbTitle, 0, 0, 2, 1);
+	    GridPane.setHalignment(lbTitle, HPos.CENTER);
+	    
+	    lbSongList.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+	    
+	    songview.getChildren().addAll(lbSongList,songList);
+	    container.getChildren().addAll(songview, songDetails);
 	    this.getChildren().addAll(container);
 	}
 }

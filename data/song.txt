@@ -1,4 +1,7 @@
-Sweet Melodies,null,null,null,null,Ace Studios,RSA-Ace-24-001,DJ Ace,SR-24-Ace-001,10
-Go Around,Bongi Dube,Bongi Dube,Bongi Dube,11-08-2009,DJ Ace,RSA-Ace-24-001,Ace Van Harred,SR-24-001,10
-Wedding Song,null,null,null,null,Ace Studios,RSA-Ace-24-001,DJ Ace,SR-Ace-003,10
-Go Around,null,null,null,null,Ace Studios,RSA-Ace-24-005,Bongi Dube,SR-DB-24-005,10
+Sweet Melodies,DJ Ace,Ace Van Harred,Ace Van Harred,03-04-2021,Ace Studios,RSA-Ace-24-001,DJ Ace,SR-24-Ace-001,10
+Go Around,Bongi Dube,Bongi Dube,Bongi Dube,11-08-2009,DJ Ace,RSA-Ace-24-002,Ace Van Harred,SR-24-002,10
+Wedding Song,DJ Ace,Ace Van Harred,Ace Van Harred,23-08-2017,Ace Studios,RSA-Ace-24-003,DJ Ace,SR-Ace-003,10
+I'd Like,FreshlyGround,FreshlyGround,FreshlyGround,09-02-2004,Ace Studios,RSA-Ace-24-005,Bongi Dube,SR-DB-24-005,10
+Nizalwa Ngobani,null,null,null,null,AfroJazz_pty,RSA-THD-04-001,Thandiswa Mazwai,SR-THD-04-001,10
+Amacala,null,null,null,2024-05-14,Ubuntu Bar,RSA-UBB-07-001,Ubuntu Bar,SR-UBB-07-001,10
+Alone In a Strange Place,tokelo,Sipho Gumede,Sipho Gumede,2024-05-13,AfroJazz,RSA-ASP-98-001,Sipho Gumede,SR-ASP-98-001,10

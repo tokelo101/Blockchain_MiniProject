@@ -1,0 +1,7 @@
+.label {
+    -fx-text-fill: white;
+}
+
+.pane{
+    -fx-text-fill: black;
+}

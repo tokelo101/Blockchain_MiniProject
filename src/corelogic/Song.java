@@ -40,7 +40,10 @@ public class Song implements Serializable{
 		this.releaseDate = releaseDate;
 		this.copyrightsHolder = copyrightsHolder;
 		this.copyrightRegNumber = copyrightRegNumber;
-		this.ArtistAddress = artist.getAddress();
+		
+		if(artist!=null) {
+			this.ArtistAddress = artist.getAddress();
+		}
     }
 	
 	public String getSongTitle() {

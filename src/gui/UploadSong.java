@@ -1,5 +1,7 @@
 package gui;
 
+import java.time.format.DateTimeFormatter;
+
 import corelogic.Artist;
 import corelogic.Song;
 import corelogic.User;
@@ -67,7 +69,7 @@ public class UploadSong extends GridPane{
 
         DatePicker dtReleaseDate = new DatePicker();
         frmUploadsong.add(dtReleaseDate, 1, 4);
-
+        
         Label lbPublisher = new Label("Publisher:");
         frmUploadsong.add(lbPublisher, 0, 5);
 
@@ -88,13 +90,20 @@ public class UploadSong extends GridPane{
         
         btnNext.setOnAction(event->{
         	
+        	  // A listener for the selected date property
+        	dtReleaseDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+
+                }
+            });
+        	
         	String isrc = txtISRC.getText();
     		String publisher = txtPublisher.getText();
     		String title = txtSongTitle.getText();
-    		String releaseDate = dtReleaseDate.getPromptText();
-    		System.out.println("Release Date: "+ releaseDate );
+    		String releaseDate = dtReleaseDate.getValue().toString();
     		Song tempsong = new Song(isrc, publisher, title, releaseDate , null, null, user);
-        	tempsong.setComposer(txtComposer.getText());
+    		tempsong.setArtist(user.getName());
+    		tempsong.setComposer(txtComposer.getText());
         	tempsong.setLyricist(txtLyricist.getText());
         	LicenseAndCopyrights licenseandcopyrights = new LicenseAndCopyrights(content, primaryStage,user , tempsong);
         	this.getChildren().remove(0);
