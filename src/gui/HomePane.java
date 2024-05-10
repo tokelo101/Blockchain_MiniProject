@@ -29,6 +29,7 @@ public class HomePane extends StackPane {
     
 	private Stage primaryStage;
     private User user;
+    private Artist artistUser;
 	private Song selectedSong;
 	private BlockHandler blockhandler;
 	
@@ -71,9 +72,14 @@ public class HomePane extends StackPane {
     private SongsView songsView;
     
     public HomePane(Stage primaryStage, User user) {
+    	if(user instanceof Artist) {
+			this.user = (Artist)user;
+			artistUser = (Artist)user;
+		}
+    	
     	this.primaryStage = primaryStage;
     	this.user = user;
-    	blockhandler = new BlockHandler();
+    	blockhandler = new BlockHandler<SongTransaction>(user);
     	
     	
     	mainBox = new VBox();
@@ -176,7 +182,7 @@ public class HomePane extends StackPane {
     	navUploadSong.setOnAction(event->{
         	uploadsong = new UploadSong(content, primaryStage, (Artist)user);
         	this.getChildren().remove(0);
-        	content.getChildren().remove(0);
+        	content.getChildren().clear();
         	content.getChildren().addAll(uploadsong);
         	this.getChildren().add(mainBox);
         	
@@ -185,7 +191,7 @@ public class HomePane extends StackPane {
          navSongList.setOnAction(event->{
         	songsView = new SongsView(content, primaryStage, (Artist)user);
         	this.getChildren().remove(0);
-        	content.getChildren().remove(0);
+        	content.getChildren().clear();
         	content.getChildren().addAll(songsView);
         	this.getChildren().add(mainBox);
         	
@@ -253,7 +259,7 @@ public class HomePane extends StackPane {
         
         
         navBuy_CopyRights.setOnAction(event->{
-        	
+        	selectedSong = new Song("RSA-Ace-001", "DJ Ace", "Sweet Melodies", "02-05-2024", "DJ Ace", "SR-001", artistUser);
         	String artistAddress  = selectedSong.getArtistAddress() ;
         	if(selectedSong == null) {
         		Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -264,7 +270,7 @@ public class HomePane extends StackPane {
         	}else {
         		
         		SongTransaction songtransaction = new SongTransaction(selectedSong, "CopyRights");
-        		Transaction<SongTransaction> transaction = new Transaction<SongTransaction>(user.getADDRESS(), artistAddress, songtransaction);
+        		Transaction<SongTransaction> transaction = new Transaction<SongTransaction>(user.getAddress(), artistAddress, songtransaction);
         		
         		boolean TransactionAdded = blockhandler.addTransaction(transaction);
             	

@@ -1,9 +1,12 @@
 package corelogic;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,10 +20,12 @@ public class Artist extends User{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String filePath = "data/songs_.bin"; //Will be uniquely identified by the International Standard Recording Code
+	private SongHandler songhandler;
 	
 	public Artist(String usertype, String name, String surname, String email, String password) {
 		super(usertype, name, surname, email, password);
+		songhandler = new SongHandler(this);
+		this.setADDRESS("10");
 	}
 	
 	/**
@@ -30,18 +35,7 @@ public class Artist extends User{
 	 * @return status returns a status on whether the file has been written or not
 	 */
 	public <T> boolean UploadSong(Song song) {
-		
-		//Add song to a list of user's song list	
-			boolean status = false;
-			try(FileOutputStream fos = new FileOutputStream(filePath, true);
-				ObjectOutputStream obj_os = new ObjectOutputStream(fos)){
-				obj_os.writeObject(song);
-				status = true;
-			}catch(IOException ioe) {
-				ioe.printStackTrace();
-			}
-		
-		return status;
+		return songhandler.WriteSong(song);
 	}
 
 	/**
@@ -50,69 +44,12 @@ public class Artist extends User{
 	 * @return song the song to be returned
 	 */
 	public Song GetSong(String ISRC){
-		
-		Song song = null;
-		
-		try(FileInputStream fis = new FileInputStream(filePath);
-				ObjectInputStream obj_is = new ObjectInputStream(fis)) {
-				
-				
-				while (true) {
-				    try{
-				    	Object obj = obj_is.readObject();
-				    	if(obj instanceof Song) {
-							Song tempSong = (Song)obj;
-							if(tempSong.getISRC().equals(ISRC)) {
-								song = tempSong;
-								break;
-							}
-						}
-				    } catch (EOFException e) {
-				      break;
-				    }
-				}
-				
-			}catch (IOException ioe) {
-				ioe.printStackTrace();
-			}catch (ClassNotFoundException cnfe) {
-				cnfe.printStackTrace();
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-		
-		return song;
+		return songhandler.ReadSong(ISRC);
 	}
 	
 	
-public ArrayList<Song> GetAllSongs(){
-		
-		ArrayList<Song> songs = new ArrayList<Song>();
-		
-		try(FileInputStream fis = new FileInputStream(filePath);
-				ObjectInputStream obj_is = new ObjectInputStream(fis)) {
-				
-				
-				while (true) {
-				    try{
-				    	Object obj = obj_is.readObject();
-				    	if(obj instanceof Song) {
-							Song tempSong = (Song)obj;
-							songs.add(tempSong);
-						}
-				    } catch (EOFException e) {
-				      break;
-				    }
-				}
-				
-			}catch (IOException ioe) {
-				ioe.printStackTrace();
-			}catch (ClassNotFoundException cnfe) {
-				cnfe.printStackTrace();
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-		
-		return songs;
+	public ArrayList<Song> GetAllArtistSongs(){
+		return songhandler.readArtistSongs(getAddress());
 	}
 	
 	
@@ -141,12 +78,12 @@ public ArrayList<Song> GetAllSongs(){
 		String copyrightRegNo = song.getCopyrightRegNumber();
 		
 		//Create a Clone of the song.
-		Song updatedSong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo); 
+		//Song updatedSong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo); 
 		//Update License terms
-		updatedSong.setLicesnseAndTerms(licenceTerms);
+		//updatedSong.setLicesnseAndTerms(licenceTerms);
 		//Create a transaction
-		Transaction<Song> transaction = new Transaction<Song>(this.getAddress(), null, updatedSong);   //NOTE: update licenseTerms can't be a transaction between sender and receiver 
-		updatedSong.addTransaction(transaction);
+		//Transaction<Song> transaction = new Transaction<Song>(this.getAddress(), null, updatedSong);   //NOTE: update licenseTerms can't be a transaction between sender and receiver 
+		//updatedSong.addTransaction(transaction);
 		//Add to temporary transaction list file
 			//send updated transaction list to peers on the network
 			//if there's more than 5 transactions

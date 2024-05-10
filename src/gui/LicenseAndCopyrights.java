@@ -86,14 +86,20 @@ public class LicenseAndCopyrights extends GridPane{
     		String publisher = song.getPublisher();
     		String title = song.getSongTitle();
     		String releaseDate = song.getReleaseDate();
+    		String artistname = song.getArtist();
+    		String composer = song.getComposer();
+    		String lyricist = song.getLyricist();
     		//next page
     		String copyrightHolder = txtCopyrightHolder.getText();
     		String copyrightRegNo = txtCopyrightReg.getText();
     		File licenceTerms_ = licenceTerms;
         	
-        	Song newsong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo);
+        	Song newsong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo, user);
+        	newsong.setArtist(artistname);
+    		newsong.setComposer(composer);
+        	newsong.setLyricist(lyricist);
         	newsong.setLicesnseAndTerms(licenceTerms_);
-    
+        	
         	if(user instanceof Artist) {
         		Artist artist = (Artist)user;
 

@@ -1,25 +1,10 @@
 package gui;
-
-import corelogic.Artist;
-import corelogic.Distributor;
-import corelogic.User;
-import corelogic.UserHandler;
+import corelogic.*;
 import javafx.animation.AnimationTimer;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.geometry.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class UserAuthentication extends StackPane{
@@ -83,8 +68,8 @@ public class UserAuthentication extends StackPane{
        this.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
 	   
        //Test Purposes
-       //txtEmail.setText("tm@mail.com");
-	   //password.setText("tm");
+       txtEmail.setText("rk@mail.com");
+	   password.setText("rk");
 	   
        btnLogin.setOnAction(event->{
     	   

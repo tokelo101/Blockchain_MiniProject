@@ -31,28 +31,17 @@ public class User implements Serializable{
 		GenerateKeys();
 	}
 	
-	public String getPRIVATE_KEY() {
-		return PRIVATE_KEY;
-	}
 
-	public void setPRIVATE_KEY(String pRIVATE_KEY) {
-		PRIVATE_KEY = pRIVATE_KEY;
-	}
-
-	public String getPUBLIC_KEY() {
-		return PUBLIC_KEY;
+	public void setPRIVATE_KEY(String PRIVATE_KEY) {
+		PRIVATE_KEY = PRIVATE_KEY;
 	}
 
 	public void setPUBLIC_KEY(String pUBLIC_KEY) {
 		PUBLIC_KEY = pUBLIC_KEY;
 	}
 
-	public String getADDRESS() {
-		return ADDRESS;
-	}
-
-	public void setADDRESS(String aDDRESS) {
-		ADDRESS = aDDRESS;
+	public void setADDRESS(String ADDRESS) {
+		this.ADDRESS = ADDRESS;
 	}
 
 	public void setUsertype(String usertype) {
