@@ -31,13 +31,14 @@ public class SongsView<K,V> extends StackPane{
 
 	    Label lbSongList;
 	    
-	    if(user.getUserType().toLowerCase().equals("artist")) {
+	    if(user.getUserType().equals("Artist")) {
 	    	 // Add items to the ObservableList
 		    lbSongList = new Label("Artist Song List");
 		    lbSongList.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		    artist = (Artist)user;
 		    
-		    
+		    artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+		    artist.setPUBLIC_KEY(user.getPublicKey());
+		    artist.setPRIVATE_KEY(user.getPrivateKey());
 		    ArrayList<Song> artistsongs = artist.GetAllArtistSongs();
 		    
 		    
@@ -49,10 +50,9 @@ public class SongsView<K,V> extends StackPane{
 	    	 // Add items to the ObservableList
 		    lbSongList = new Label("All Songs");
 		    lbSongList.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		    // Add items to the ObservableList
-		    lbSongList = new Label("Artist Song List");
-		    lbSongList.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		    distributor = (Distributor)user;
+		    distributor  = new Distributor(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+		    distributor.setPUBLIC_KEY(user.getPublicKey());
+		    distributor.setPRIVATE_KEY(user.getPrivateKey());
 		    
 		    
 		    ArrayList<Song> artistsongs = distributor.GetAllSongs();

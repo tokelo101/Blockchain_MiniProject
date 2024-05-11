@@ -1,4 +1,4 @@
-package corelogic;
+package blockchain;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.List;
 import acsse.csc03a3.Block;
 import acsse.csc03a3.Blockchain;
 import acsse.csc03a3.Transaction;
+import corelogic.User;
 
 public class BlockHandler<T> {
 	
@@ -21,8 +22,9 @@ public class BlockHandler<T> {
 		//if there's no block, instantiate a Genesis Block
 		//Block<T> block = new Block("", transactions);
 	
+	int stake = 10;
 	public BlockHandler(User user) {
-		blockchain.registerStake(user.getAddress(), 10);
+		blockchain.registerStake(user.getPublicKey(), stake);
 	}
 	
 	public boolean addTransaction(Transaction<T> transaction) {

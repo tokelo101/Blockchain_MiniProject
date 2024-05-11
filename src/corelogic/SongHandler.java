@@ -6,28 +6,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 public class SongHandler {
-	private String SongsPath = "data/song.txt"; //Will be uniquely identified by the International Standard Recording Code
-	//private String AllSongsPath = "data/Allsongs.txt";
+	private String SongsPath = "data/songs.txt"; //Will be uniquely identified by the International Standard Recording Code
 	private User user;
 	private Artist artistUser;
 	private Distributor distributerUser;
 	public SongHandler(User user) {
-		if(user instanceof Artist) {
-			this.user = (Artist)user;
-			artistUser = (Artist)user;
-		}
-		if(user instanceof Distributor) {
-			this.user = (Distributor)user;
-			distributerUser = (Distributor)user;
-		}
-//		if(user instanceof RecordLabel) {
-//			this.user = (RecordLabel)user;
-//		}
-//		if(user instanceof Publisher) {
-//			this.user = (Distributor)user;
-//		}
-		
+		this.user = user;
 	}
 	
 	public boolean WriteSong(Song song) {
@@ -73,7 +62,7 @@ public class SongHandler {
 		            	String artistAddress = songFields[9];
 
 		                if( ISRC_.equals(ISRC)) {
-		                    song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, artistUser);
+		                    song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber,UserHandler.GetArtist(artistAddress));
 			                song.setArtist(artist);
 			                song.setComposer(composer);
 			                song.setLyricist(lyricist);
@@ -108,7 +97,7 @@ public class SongHandler {
 	            	String songData = bufferedReader.readLine();
 		            if (songData != null) {
 		                String[] songFields = songData.split(",");
-		                if (songFields.length >= 2) {
+		                if (songFields.length >= 9) {
 		                	
 		                	String songTitle = songFields[0];
 		                	String artist = songFields[1];
@@ -122,7 +111,7 @@ public class SongHandler {
 		            		String artistAddress = songFields[9];
 
 
-		                    	Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, (Artist)UserHandler.GetUser(artistAddress));
+		                    	Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, UserHandler.GetArtist(artistAddress));
 			                    song.setArtist(artist);
 			                    song.setComposer(composer);
 			                    song.setLyricist(lyricist);
@@ -170,7 +159,7 @@ public class SongHandler {
 		            		String artistAddress = songFields[9];
 
 		                    	if(Address.equals(artistAddress)) {
-		                    		Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, artistUser);
+		                    		Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, UserHandler.GetArtist(artistAddress));
 				                    song.setArtist(artist);
 				                    song.setComposer(composer);
 				                    song.setLyricist(lyricist);

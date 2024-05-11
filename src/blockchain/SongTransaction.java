@@ -1,4 +1,6 @@
-package corelogic;
+package blockchain;
+
+import corelogic.Song;
 
 public class SongTransaction {
 	private Song song;

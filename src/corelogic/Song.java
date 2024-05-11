@@ -1,7 +1,6 @@
 
 package corelogic;
 import java.io.File;
-import java.io.Serializable;
 import java.util.List;
 import acsse.csc03a3.Transaction;
 
@@ -10,12 +9,8 @@ import acsse.csc03a3.Transaction;
  * @author TM Monare 221022037
  *
  */
-public class Song implements Serializable{
+public class Song{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private String songTitle;
 	private String artist;
 	private String composer;
@@ -41,9 +36,8 @@ public class Song implements Serializable{
 		this.copyrightsHolder = copyrightsHolder;
 		this.copyrightRegNumber = copyrightRegNumber;
 		
-		if(artist!=null) {
-			this.ArtistAddress = artist.getAddress();
-		}
+			this.ArtistAddress = artist.getPublicKey();
+		
     }
 	
 	public String getSongTitle() {

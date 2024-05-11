@@ -1,13 +1,10 @@
 package corelogic;
-import java.io.Serializable;
-import java.util.Random;
-
 /**
  * 
  * @author TM Monare 221022037
  *
  */
-public class User implements Serializable{
+public class User{
 
 	private String usertype;
 	private String name;
@@ -16,7 +13,6 @@ public class User implements Serializable{
 	private String password;
 	private String PRIVATE_KEY;
 	private String PUBLIC_KEY;
-	private String ADDRESS;
 	
 	
 	public User(String usertype, String name, String surname, String email, String password) {
@@ -27,21 +23,15 @@ public class User implements Serializable{
 		this.email = email;
 		this.password = password;
 		
-		//Generate Keys
-		GenerateKeys();
 	}
 	
 
 	public void setPRIVATE_KEY(String PRIVATE_KEY) {
-		PRIVATE_KEY = PRIVATE_KEY;
+		this.PRIVATE_KEY = PRIVATE_KEY;
 	}
 
 	public void setPUBLIC_KEY(String pUBLIC_KEY) {
 		PUBLIC_KEY = pUBLIC_KEY;
-	}
-
-	public void setADDRESS(String ADDRESS) {
-		this.ADDRESS = ADDRESS;
 	}
 
 	public void setUsertype(String usertype) {
@@ -63,22 +53,6 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	/**
-	 * This method Generates the Private and Public Key when a new user is created
-	 */
-	public void GenerateKeys() {
-		
-		//Random keys [That do not repeat #note public key can't be used to ket private key yet] for now
-		
-		Random rand = new Random();
-		int privateK = rand.nextInt(100);
-		int publicK = rand.nextInt(100);
-		this.PRIVATE_KEY = String.valueOf(privateK);
-		this.PUBLIC_KEY = String.valueOf(publicK);
-		this.ADDRESS = String.valueOf(publicK)+String.valueOf(privateK);
-	}
-	
 
 	public String getUserType() {
 		return usertype;
@@ -108,13 +82,12 @@ public class User implements Serializable{
 		return PUBLIC_KEY;
 	}
 	
-	public String getAddress() {
-		return ADDRESS;
-	}
 	
 	
+	
+	//Test Purposes
 	public void PrintUser() {
-		//Test Purposes
+		
 		System.out.println("-----------Printing Artist------------");
 		System.out.println("Private Key: "+this.getPrivateKey());
 		System.out.println("Public Key: "+this.getPublicKey());

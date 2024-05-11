@@ -1,11 +1,11 @@
 package gui;
 
 import acsse.csc03a3.Transaction;
+import blockchain.BlockHandler;
+import blockchain.SongTransaction;
 import corelogic.Artist;
-import corelogic.BlockHandler;
 import corelogic.Distributor;
 import corelogic.Song;
-import corelogic.SongTransaction;
 import corelogic.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,11 +25,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class HomePane extends StackPane {
+public class HomePane<K, V> extends StackPane {
     
 	private Stage primaryStage;
     private User user;
-    private Artist artistUser;
+    private Artist artist;
 	private Song selectedSong;
 	private BlockHandler blockhandler;
 	
@@ -69,16 +69,29 @@ public class HomePane extends StackPane {
     //private RegisterPane register;
     private UserAuthentication login;
     private UploadSong uploadsong;
-    private SongsView songsView;
+    private SongsView<K,V> songsView;
     
     public HomePane(Stage primaryStage, User user) {
-    	if(user instanceof Artist) {
-			this.user = (Artist)user;
-			artistUser = (Artist)user;
-		}
+    	this.user = user;
+    	if(user.getUserType().equals("Artist")) {
+    		
+    		
+    		artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+		    artist.setPUBLIC_KEY(user.getPublicKey());
+		    artist.setPRIVATE_KEY(user.getPrivateKey());	
+    	
+		    System.out.println("UserType in Homepane Constructor is Artist" + user.getPublicKey());
+		    
+	    	artist.PrintUser();
+	    	System.out.println("UserType in Homepane Constructor is Artist" + user.getPrivateKey());
+    	}
     	
     	this.primaryStage = primaryStage;
-    	this.user = user;
+    	
+    	
+    	System.out.println("User in Homepane Constructor");
+    	user.PrintUser();
+    	
     	blockhandler = new BlockHandler<SongTransaction>(user);
     	
     	
@@ -180,7 +193,7 @@ public class HomePane extends StackPane {
         
     	
     	navUploadSong.setOnAction(event->{
-        	uploadsong = new UploadSong(content, primaryStage, (Artist)user);
+        	uploadsong = new UploadSong(content, primaryStage, artist);
         	this.getChildren().remove(0);
         	content.getChildren().clear();
         	content.getChildren().addAll(uploadsong);
@@ -189,7 +202,9 @@ public class HomePane extends StackPane {
         });
         
          navSongList.setOnAction(event->{
-        	songsView = new SongsView(content, primaryStage, (Artist)user);
+        	System.out.println("-------Nav Song List-------");
+        	user.PrintUser();
+        	songsView = new SongsView<K, V>(content, primaryStage, user);
         	this.getChildren().remove(0);
         	content.getChildren().clear();
         	content.getChildren().addAll(songsView);
@@ -250,7 +265,7 @@ public class HomePane extends StackPane {
         
         
         navSongList.setOnAction(event->{
-        	songsView = new SongsView(content, primaryStage, (Distributor)user);
+        	songsView = new SongsView<K,V>(content, primaryStage, user);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	content.getChildren().addAll(songsView);
@@ -259,7 +274,7 @@ public class HomePane extends StackPane {
         
         
         navBuy_CopyRights.setOnAction(event->{
-        	selectedSong = new Song("RSA-Ace-001", "DJ Ace", "Sweet Melodies", "02-05-2024", "DJ Ace", "SR-001", artistUser);
+        	selectedSong = new Song("RSA-Ace-001", "DJ Ace", "Sweet Melodies", "02-05-2024", "DJ Ace", "SR-001", artist);
         	String artistAddress  = selectedSong.getArtistAddress() ;
         	if(selectedSong == null) {
         		Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -270,7 +285,7 @@ public class HomePane extends StackPane {
         	}else {
         		
         		SongTransaction songtransaction = new SongTransaction(selectedSong, "CopyRights");
-        		Transaction<SongTransaction> transaction = new Transaction<SongTransaction>(user.getAddress(), artistAddress, songtransaction);
+        		Transaction<SongTransaction> transaction = new Transaction<SongTransaction>(user.getPublicKey(), artistAddress, songtransaction);
         		
         		boolean TransactionAdded = blockhandler.addTransaction(transaction);
             	

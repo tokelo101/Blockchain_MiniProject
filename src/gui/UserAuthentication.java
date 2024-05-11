@@ -1,13 +1,12 @@
 package gui;
 import corelogic.*;
-import javafx.animation.AnimationTimer;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
-public class UserAuthentication extends StackPane{
+public class UserAuthentication<K, V> extends StackPane{
 	private Button btnLogin;
 	private Button btnRegister;
 	private TextField txtEmail;
@@ -15,8 +14,7 @@ public class UserAuthentication extends StackPane{
 	private HBox content;
 	private int LoginAttemptCount = 3;
 	private static final int COUNTDOWN_SECONDS = 30;
-	private Alert alert;
-	private AnimationTimer countdownTimer;
+
 	
 	public UserAuthentication(Stage primaryStage) {
 		
@@ -68,8 +66,8 @@ public class UserAuthentication extends StackPane{
        this.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
 	   
        //Test Purposes
-       txtEmail.setText("rk@mail.com");
-	   password.setText("rk");
+       txtEmail.setText("sm@mail.com");
+	   password.setText("sm");
 	   
        btnLogin.setOnAction(event->{
     	   
@@ -81,8 +79,10 @@ public class UserAuthentication extends StackPane{
     		 //Navigate to Distributor UI
        	 if(user.getUserType().equals("Artist")) {
        	 	Artist artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+       	 	artist.setPUBLIC_KEY(user.getPublicKey());
+		    artist.setPRIVATE_KEY(user.getPrivateKey());
        	 	//Artist artist = (Artist) user;
-       	 	HomePane home = new HomePane(primaryStage, artist);
+       	 	HomePane<K, V> home = new HomePane<K,V>(primaryStage, artist);
        	 	this.getChildren().remove(0);
        	 	this.getChildren().remove(0);
        	 	this.getChildren().addAll(home);
@@ -90,7 +90,9 @@ public class UserAuthentication extends StackPane{
        	 	//Navigate to Distributor UI
        	 if(user.getUserType().equals("Distributor")) {
        		Distributor distributor = new Distributor(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
-    	 	HomePane home = new HomePane(primaryStage, distributor);
+       		distributor.setPUBLIC_KEY(user.getPublicKey());
+       		distributor.setPRIVATE_KEY(user.getPrivateKey());
+       		HomePane<K, V> home = new HomePane<K, V>(primaryStage, distributor);
     	 	this.getChildren().remove(0);
     	 	this.getChildren().remove(0);
     	 	this.getChildren().addAll(home);

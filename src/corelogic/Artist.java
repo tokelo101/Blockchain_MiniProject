@@ -16,16 +16,11 @@ import acsse.csc03a3.Transaction;
 
 public class Artist extends User{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private SongHandler songhandler;
 	
 	public Artist(String usertype, String name, String surname, String email, String password) {
 		super(usertype, name, surname, email, password);
 		songhandler = new SongHandler(this);
-		this.setADDRESS("10");
 	}
 	
 	/**
@@ -49,7 +44,7 @@ public class Artist extends User{
 	
 	
 	public ArrayList<Song> GetAllArtistSongs(){
-		return songhandler.readArtistSongs(getAddress());
+		return songhandler.readArtistSongs(getPublicKey());
 	}
 	
 	

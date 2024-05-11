@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class LicenseAndCopyrights extends GridPane{
 	private File licenceTerms;
 	
-	public LicenseAndCopyrights(Pane content, Stage primaryStage,Artist user, Song song) {
+	public LicenseAndCopyrights(Pane content, Stage primaryStage,Artist artist, Song song) {
 		GridPane frmUploadsong = new GridPane();
         frmUploadsong.setAlignment(Pos.CENTER);
         frmUploadsong.setHgap(10);
@@ -66,7 +66,7 @@ public class LicenseAndCopyrights extends GridPane{
         this.getChildren().add(frmUploadsong);
         
         btnBack.setOnAction(event->{
-        	UploadSong uploadsong = new UploadSong(content, primaryStage, user);
+        	UploadSong uploadsong = new UploadSong(content, primaryStage, artist);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	content.getChildren().addAll(uploadsong);
@@ -94,16 +94,13 @@ public class LicenseAndCopyrights extends GridPane{
     		String copyrightRegNo = txtCopyrightReg.getText();
     		File licenceTerms_ = licenceTerms;
         	
-        	Song newsong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo, user);
+        	Song newsong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo, artist);
         	newsong.setArtist(artistname);
     		newsong.setComposer(composer);
         	newsong.setLyricist(lyricist);
         	newsong.setLicesnseAndTerms(licenceTerms_);
-        	
-        	if(user instanceof Artist) {
-        		Artist artist = (Artist)user;
 
-            	Transaction<Song> songUploaded = new Transaction<>(artist.getAddress(), null , newsong);
+            	Transaction<Song> songUploaded = new Transaction<>(artist.getPublicKey(), null , newsong);
             	//put song to song list
             	if(artist.UploadSong(newsong)) {
             		Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -118,7 +115,6 @@ public class LicenseAndCopyrights extends GridPane{
                     alert.setContentText(" please try again");
                     alert.showAndWait();
             	}
-        	}
         	//get the latest transaction file from peers
         	
         	//add transaction to the file

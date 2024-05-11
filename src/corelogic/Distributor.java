@@ -14,7 +14,6 @@ public class Distributor extends User{
 	public Distributor(String usertype, String name, String surname, String email, String password) {
 		super(usertype, name, surname, email, password);
 		songhandler = new SongHandler(this);
-		this.setADDRESS("11");
 	}
 	
 	public double getAvailableFunds() {

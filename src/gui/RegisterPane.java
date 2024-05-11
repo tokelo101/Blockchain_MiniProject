@@ -95,8 +95,7 @@ public class RegisterPane extends StackPane {
 	        		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	                alert.setTitle("User Registration");
 	                alert.setHeaderText("Welcome " +newuser.getName());
-	                alert.setContentText("Your Public Key is: " + newuser.getPublicKey()+
-	                		 " | Your private Key is: " + newuser.getPrivateKey());
+	                alert.setContentText("Your Public Key is: " + newuser.getPublicKey());
 	                alert.showAndWait();
 	                
 	                HomePane home = new HomePane(primaryStage, newuser);
