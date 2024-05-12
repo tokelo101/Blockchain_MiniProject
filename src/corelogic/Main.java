@@ -21,7 +21,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-    	UserAuthentication login = new UserAuthentication(primaryStage);
+    	UserAuthentication<String,String,Song> login = new UserAuthentication<>(primaryStage);
         Scene root = new Scene(login, 750, 500);
         
         //Setting background color

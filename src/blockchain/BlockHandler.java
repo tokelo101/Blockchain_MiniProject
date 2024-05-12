@@ -4,8 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import acsse.csc03a3.Block;
 import acsse.csc03a3.Blockchain;
 import acsse.csc03a3.Transaction;
 import corelogic.User;
@@ -27,7 +25,7 @@ public class BlockHandler<T> {
 		blockchain.registerStake(user.getPublicKey(), stake);
 	}
 	
-	public boolean addTransaction(Transaction<T> transaction) {
+	public boolean addTransaction(SongTransaction<T> transaction) {
 		boolean status = false;
 		
 		transactions.add(transaction);

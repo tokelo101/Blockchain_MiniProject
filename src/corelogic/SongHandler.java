@@ -29,7 +29,6 @@ public class SongHandler {
             
             fileWriter.write(songData);
             fileWriter.write(System.lineSeparator());
-            System.out.println("Song data written to the file successfully.");
             return true;
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file: " + e.getMessage());

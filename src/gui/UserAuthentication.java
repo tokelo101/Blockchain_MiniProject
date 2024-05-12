@@ -6,7 +6,15 @@ import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
-public class UserAuthentication<K, V> extends StackPane{
+/**
+ * 
+ * @author tokel
+ *
+ * @param <K> SongKey
+ * @param <V> SongTitle
+ * @param <T> Transaction Data
+ */
+public class UserAuthentication<K, V , T> extends StackPane{
 	private Button btnLogin;
 	private Button btnRegister;
 	private TextField txtEmail;
@@ -82,7 +90,7 @@ public class UserAuthentication<K, V> extends StackPane{
        	 	artist.setPUBLIC_KEY(user.getPublicKey());
 		    artist.setPRIVATE_KEY(user.getPrivateKey());
        	 	//Artist artist = (Artist) user;
-       	 	HomePane<K, V> home = new HomePane<K,V>(primaryStage, artist);
+       	 	HomePane<K, V, T> home = new HomePane<K,V, T>(primaryStage, artist);
        	 	this.getChildren().remove(0);
        	 	this.getChildren().remove(0);
        	 	this.getChildren().addAll(home);
@@ -92,7 +100,7 @@ public class UserAuthentication<K, V> extends StackPane{
        		Distributor distributor = new Distributor(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
        		distributor.setPUBLIC_KEY(user.getPublicKey());
        		distributor.setPRIVATE_KEY(user.getPrivateKey());
-       		HomePane<K, V> home = new HomePane<K, V>(primaryStage, distributor);
+       		HomePane<K, V, T> home = new HomePane<K, V, T>(primaryStage, distributor);
     	 	this.getChildren().remove(0);
     	 	this.getChildren().remove(0);
     	 	this.getChildren().addAll(home);

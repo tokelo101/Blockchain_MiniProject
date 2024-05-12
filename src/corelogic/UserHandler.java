@@ -114,17 +114,12 @@ public class UserHandler{
 		                	String PRIVATE_KEY = userFields[6];
 
 		                    if(PUBLIC_KEY.equals(publicKey)) {
-		                    	System.out.println("Matchig Key Found");
 		                    	user = new User(usertype, name, surname, email_, password_);
 			                    user.setPUBLIC_KEY(PUBLIC_KEY);
 			                    user.setPRIVATE_KEY(PRIVATE_KEY);
 			                 return user;	
-		                    }else {
-		                    	System.out.println("Matchig Key Not Found");
 		                    }
-		                    
 		                 
-		                    
 		                } else {
 		                    System.out.println("Invalid user data format in the file.");
 		                }

@@ -7,6 +7,7 @@ import corelogic.Artist;
 import corelogic.Distributor;
 import corelogic.Song;
 import corelogic.User;
+import corelogic.UserHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -25,13 +26,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class HomePane<K, V> extends StackPane {
+public class HomePane<K, V, T> extends StackPane {
     
 	private Stage primaryStage;
     private User user;
     private Artist artist;
 	private Song selectedSong;
-	private BlockHandler blockhandler;
+	private BlockHandler<T> blockhandler;
 	
     //User Funds Account
     private HBox fundsBox;
@@ -92,7 +93,7 @@ public class HomePane<K, V> extends StackPane {
     	System.out.println("User in Homepane Constructor");
     	user.PrintUser();
     	
-    	blockhandler = new BlockHandler<SongTransaction>(user);
+    	blockhandler = new BlockHandler<T>(user);
     	
     	
     	mainBox = new VBox();
@@ -274,8 +275,9 @@ public class HomePane<K, V> extends StackPane {
         
         
         navBuy_CopyRights.setOnAction(event->{
-        	selectedSong = new Song("RSA-Ace-001", "DJ Ace", "Sweet Melodies", "02-05-2024", "DJ Ace", "SR-001", artist);
-        	String artistAddress  = selectedSong.getArtistAddress() ;
+        	
+        	//get selected song from SongView Class
+        	selectedSong = SongsView.selectedSong();
         	if(selectedSong == null) {
         		Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Purchase Transaction");
@@ -283,11 +285,10 @@ public class HomePane<K, V> extends StackPane {
                 alert.setContentText("You have to select a song first!");
                 alert.showAndWait();
         	}else {
+            	String artistAddress  = selectedSong.getArtistAddress() ;        		
+        		SongTransaction<T> songTransaction = new SongTransaction<>(selectedSong, "CopyRights",user.getPublicKey(),artistAddress, 94);
         		
-        		SongTransaction songtransaction = new SongTransaction(selectedSong, "CopyRights");
-        		Transaction<SongTransaction> transaction = new Transaction<SongTransaction>(user.getPublicKey(), artistAddress, songtransaction);
-        		
-        		boolean TransactionAdded = blockhandler.addTransaction(transaction);
+        		boolean TransactionAdded = blockhandler.addTransaction(songTransaction);
             	
         		if(TransactionAdded==true) {
         			BuyView buyview= new BuyView();
@@ -304,7 +305,7 @@ public class HomePane<K, V> extends StackPane {
         		}
             	
         	}
-        	
+        	selectedSong = null;
         });
         
         

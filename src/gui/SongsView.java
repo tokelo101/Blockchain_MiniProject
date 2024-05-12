@@ -22,6 +22,8 @@ public class SongsView<K,V> extends StackPane{
 	private Artist artist;
 	private Distributor distributor;
 	
+	private static Song selectedSong;
+	
 	public SongsView(Pane content, Stage primaryStage, User user) {
 	    container = new HBox();
 	    songDetails = new GridPane();
@@ -117,7 +119,8 @@ public class SongsView<K,V> extends StackPane{
 	        	Song song;
 	        	if(artist!=null) {
 	        		song = artist.GetSong((String)newValue.getKey());	
-		            lbSongTitle_value.setText(song.getSongTitle());
+	        		selectedSong = song;
+	        		lbSongTitle_value.setText(song.getSongTitle());
 		            lbComposer_value.setText(song.getComposer());
 		            lbLyricist_value.setText(song.getLyricist());
 		            lbReleaseDate_value.setText(song.getReleaseDate());
@@ -126,14 +129,16 @@ public class SongsView<K,V> extends StackPane{
 	        	}
 	        	if(distributor!=null) {
 	        		song = distributor.GetSong((String)newValue.getKey());
-		            lbSongTitle_value.setText(song.getSongTitle());
+	        		selectedSong = song;
+	        		lbSongTitle_value.setText(song.getSongTitle());
 		            lbComposer_value.setText(song.getComposer());
 		            lbLyricist_value.setText(song.getLyricist());
 		            lbReleaseDate_value.setText(song.getReleaseDate());
 		            lbPublisher_value.setText(song.getPublisher());
 		            lbISRC_value.setText(song.getISRC());
 	        	}
-
+	        	
+	        	
 
 	        }
 	    });
@@ -169,4 +174,12 @@ public class SongsView<K,V> extends StackPane{
 	    container.getChildren().addAll(songview, songDetails);
 	    this.getChildren().addAll(container);
 	}
+	
+	/**
+	 * 
+	 * @return song
+	 */
+	public static Song selectedSong() {
+		return selectedSong;
+	};
 }
