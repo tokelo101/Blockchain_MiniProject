@@ -6,6 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import corelogic.users.Artist;
+import corelogic.users.Distributor;
+import corelogic.users.User;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -25,7 +28,10 @@ public class SongHandler {
 		try (FileWriter fileWriter = new FileWriter(SongsPath, true)) {
             String songData = song.getSongTitle()+"," + song.getArtist()+","+song.getComposer()
             				+","+song.getLyricist()+","+song.getReleaseDate() +","+song.getPublisher()+","+song.getISRC()
-            				+","+song.getCopyrightsHolder()+","+song.getCopyrightRegNumber()+","+song.getArtistAddress();
+            				+","+song.getCopyrightsHolder()+","+song.getCopyrightRegNumber()
+            				+","+song.getCopyRights_price()+","+song.getSyncronizationRights_price()+","+song.getPerfomanceRights_price()
+            				+","+song.getMechanicalRights_price()+","+song.getMastersRights_price()
+            				+","+song.getArtistAddress();
             
             fileWriter.write(songData);
             fileWriter.write(System.lineSeparator());
@@ -48,7 +54,7 @@ public class SongHandler {
 	            String songData = bufferedReader.readLine();
 		        if (songData != null) {
 		        String[] songFields = songData.split(",");
-		        	if (songFields.length >= 2) {
+		        	if (songFields.length >= 14) {
 		                String songTitle = songFields[0];
 		                String artist = songFields[1];
 		                String composer = songFields[2];
@@ -58,14 +64,27 @@ public class SongHandler {
 		                String ISRC_ = songFields[6];
 		            	String copyrightsHolder = songFields[7];
 		            	String copyrightRegNumber = songFields[8];
-		            	String artistAddress = songFields[9];
-
+		            	String copyRights_Price = songFields[9];
+		            	String syncronizationRights_Price = songFields[10];
+		            	String performanceRights_Price = songFields[12];
+		            	String mechanicalRights_Price = songFields[11];
+		            	String mastersRights_Price = songFields[13];
+		            	String artistAddress = songFields[14];
+		            	
 		                if( ISRC_.equals(ISRC)) {
 		                    song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber,UserHandler.GetArtist(artistAddress));
 			                song.setArtist(artist);
 			                song.setComposer(composer);
 			                song.setLyricist(lyricist);
 			                song.setArtistAddress(artistAddress);
+			                //prices
+			                song.setCopyRights_price(Double.parseDouble(copyRights_Price));
+			                song.setSyncronizationRights_price(Double.parseDouble(syncronizationRights_Price));
+			                song.setPerformanceRights_price(Double.parseDouble(performanceRights_Price));
+			                song.setMechanicalRights_price(Double.parseDouble(mechanicalRights_Price));
+			                song.setMastersRights_price(Double.parseDouble(mastersRights_Price));
+
+			               
 			                return song;	
 		                 }
 		                    
@@ -96,7 +115,7 @@ public class SongHandler {
 	            	String songData = bufferedReader.readLine();
 		            if (songData != null) {
 		                String[] songFields = songData.split(",");
-		                if (songFields.length >= 9) {
+		                if (songFields.length >= 14) {
 		                	
 		                	String songTitle = songFields[0];
 		                	String artist = songFields[1];
@@ -107,14 +126,25 @@ public class SongHandler {
 		                	String ISRC_ = songFields[6];
 		            		String copyrightsHolder = songFields[7];
 		            		String copyrightRegNumber = songFields[8];
-		            		String artistAddress = songFields[9];
-
+		            		String copyRights_Price = songFields[9];
+			            	String syncronizationRights_Price = songFields[10];
+			            	String performanceRights_Price = songFields[12];
+			            	String mechanicalRights_Price = songFields[11];
+			            	String mastersRights_Price = songFields[13];
+			            	String artistAddress = songFields[14];
+			            	
 
 		                    	Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, UserHandler.GetArtist(artistAddress));
 			                    song.setArtist(artist);
 			                    song.setComposer(composer);
 			                    song.setLyricist(lyricist);
 			                    song.setArtistAddress(artistAddress);
+			                  //prices
+				                song.setCopyRights_price(Double.parseDouble(copyRights_Price));
+				                song.setSyncronizationRights_price(Double.parseDouble(syncronizationRights_Price));
+				                song.setPerformanceRights_price(Double.parseDouble(performanceRights_Price));
+				                song.setMechanicalRights_price(Double.parseDouble(mechanicalRights_Price));
+				                song.setMastersRights_price(Double.parseDouble(mastersRights_Price));
 			                    songs.add(song);
 		                    
 		                } else {
@@ -144,7 +174,7 @@ public class SongHandler {
 	            	String songData = bufferedReader.readLine();
 		            if (songData != null) {
 		                String[] songFields = songData.split(",");
-		                if (songFields.length >= 2) {
+		                if (songFields.length >= 14) {
 		                	
 		                	String songTitle = songFields[0];
 		                	String artist = songFields[1];
@@ -155,14 +185,24 @@ public class SongHandler {
 		                	String ISRC_ = songFields[6];
 		            		String copyrightsHolder = songFields[7];
 		            		String copyrightRegNumber = songFields[8];
-		            		String artistAddress = songFields[9];
-
+		            		String copyRights_Price = songFields[9];
+			            	String syncronizationRights_Price = songFields[10];
+			            	String performanceRights_Price = songFields[12];
+			            	String mechanicalRights_Price = songFields[11];
+			            	String mastersRights_Price = songFields[13];
+			            	String artistAddress = songFields[14];
+			            	
 		                    	if(Address.equals(artistAddress)) {
 		                    		Song song = new Song( ISRC_, publisher, songTitle, releaseDate, copyrightsHolder, copyrightRegNumber, UserHandler.GetArtist(artistAddress));
 				                    song.setArtist(artist);
 				                    song.setComposer(composer);
 				                    song.setLyricist(lyricist);
-				                    
+				                  //prices
+					                song.setCopyRights_price(Double.parseDouble(copyRights_Price));
+					                song.setSyncronizationRights_price(Double.parseDouble(syncronizationRights_Price));
+					                song.setPerformanceRights_price(Double.parseDouble(performanceRights_Price));
+					                song.setMechanicalRights_price(Double.parseDouble(mechanicalRights_Price));
+					                song.setMastersRights_price(Double.parseDouble(mastersRights_Price));
 				                    songs.add(song);
 		                    	}
 		                    

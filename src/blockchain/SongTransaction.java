@@ -10,6 +10,7 @@ public class SongTransaction<T> extends Transaction<T>{
 	private String receiver;
 	private long timeStamp;
 	
+	@SuppressWarnings("unchecked")
 	public SongTransaction(Song song, String transactionType,String sender,String receiver,long timeStamp) {
 		super(sender, receiver, (T)song);
 		this.song = song;

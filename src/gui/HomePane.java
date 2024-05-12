@@ -1,29 +1,14 @@
 package gui;
 
-import acsse.csc03a3.Transaction;
-import blockchain.BlockHandler;
-import blockchain.SongTransaction;
-import corelogic.Artist;
-import corelogic.Distributor;
+import blockchain.*;
 import corelogic.Song;
-import corelogic.User;
 import corelogic.UserHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import corelogic.users.*;
+import javafx.geometry.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class HomePane<K, V, T> extends StackPane {
@@ -68,7 +53,7 @@ public class HomePane<K, V, T> extends StackPane {
     
     //Navigation Contents [Panes]
     //private RegisterPane register;
-    private UserAuthentication login;
+    private UserAuthentication<String, String, Song> login;
     private UploadSong uploadsong;
     private SongsView<K,V> songsView;
     
@@ -130,7 +115,7 @@ public class HomePane<K, V, T> extends StackPane {
         
         
         navLogout.setOnAction(event->{
-        	login = new UserAuthentication(primaryStage);
+        	login = new UserAuthentication<String, String, Song>(primaryStage);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
         	this.getChildren().add(login);
@@ -183,7 +168,7 @@ public class HomePane<K, V, T> extends StackPane {
         navBox.getChildren().addAll(navSettings, navUploadSong, navSongList, navUpdateLicenseTerms,navLogout);
         
         content.setPrefWidth(500);
-        content.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
+        content.setBorder(new Border(new BorderStroke(Color.AQUAMARINE, BorderStrokeStyle.SOLID, null, null)));
         subBox.getChildren().addAll(navBox, content);
         
         mainBox.getChildren().addAll(searchBox, subBox);
@@ -221,12 +206,22 @@ public class HomePane<K, V, T> extends StackPane {
     	
     	fundsBox = new HBox();
         accountBox = new VBox();
-    	lbbalance = new Label("Available Funds");
-    	lbfunds = new Label("R 5000.00");
-        lbfunds.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+    	lbbalance = new Label("Available Funds: ");
+    	lbbalance.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+    	lbfunds = new Label(String.valueOf("R "+(user.getAvailableBalance())));
+        lbfunds.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         lbfunds.setTextFill(Color.GREEN);
         btnLoadFunds = new Button("Load Funds");
     	btnLoadFunds.setPrefWidth(200);
+    	
+    	btnLoadFunds.setOnAction(event->{
+    		//temporary update balance value =1000
+    		user.updateBalance(1000);
+    		lbfunds = new Label(String.valueOf("R "+(user.getAvailableBalance())));
+    		fundsBox.getChildren().clear();
+    		lbfunds.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+    		fundsBox.getChildren().addAll(lbbalance, lbfunds);
+    	});
     	
         fundsBox.setSpacing(10);
         fundsBox.getChildren().addAll(lbbalance, lbfunds);
@@ -255,7 +250,7 @@ public class HomePane<K, V, T> extends StackPane {
         navBox.getChildren().addAll(navSongList,navBuy_CopyRights, navBuy_SyncronizatoinRights, navBuy_Performance_Rights,navBuy_Mechanical_Rights, navBuy_Masters_Rights, navLogout);
         
         content.setPrefWidth(500);
-        content.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, null)));
+        content.setBorder(new Border(new BorderStroke(Color.AQUAMARINE, BorderStrokeStyle.SOLID, null, null)));
         subBox.getChildren().addAll(navBox, content);
         
         mainBox.getChildren().addAll(searchBox, subBox, accountBox);
@@ -276,8 +271,20 @@ public class HomePane<K, V, T> extends StackPane {
         
         navBuy_CopyRights.setOnAction(event->{
         	
+
         	//get selected song from SongView Class
         	selectedSong = SongsView.selectedSong();
+        	
+        	//Validate Price 
+        	if(user.getAvailableBalance() <= selectedSong.getCopyRights_price()) {
+        		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Purchase Transaction");
+                alert.setHeaderText("Transaction Falied");
+                alert.setContentText("You have do not have enough Funds toy make this transacation");
+                alert.showAndWait();
+        		return;
+        	};
+        	
         	if(selectedSong == null) {
         		Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Purchase Transaction");
@@ -291,6 +298,15 @@ public class HomePane<K, V, T> extends StackPane {
         		boolean TransactionAdded = blockhandler.addTransaction(songTransaction);
             	
         		if(TransactionAdded==true) {
+        			
+        			//Update User Balance
+        			user.updateBalance(-598.5);
+        			//Refresh View
+        			lbfunds = new Label(String.valueOf("R "+(user.getAvailableBalance())));
+            		fundsBox.getChildren().clear();
+            		lbfunds.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            		fundsBox.getChildren().addAll(lbbalance, lbfunds);
+        			
         			BuyView buyview= new BuyView();
                 	this.getChildren().remove(0);
                 	content.getChildren().remove(0);

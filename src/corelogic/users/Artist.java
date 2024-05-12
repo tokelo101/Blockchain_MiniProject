@@ -1,18 +1,10 @@
-package corelogic;
+package corelogic.users;
 
-import java.io.BufferedReader;
-import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import acsse.csc03a3.Transaction;
+import corelogic.Song;
+import corelogic.SongHandler;
 
 public class Artist extends User{
 	

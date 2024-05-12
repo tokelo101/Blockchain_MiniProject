@@ -2,6 +2,8 @@ package corelogic;
 import java.io.*;
 
 import blockchain.*;
+import corelogic.users.Artist;
+import corelogic.users.User;
 
 /**
  * A class that manages the Artist class
@@ -80,6 +82,7 @@ public class UserHandler{
 	
 	    return artist;
 	}
+	
 	
 	
 	public User GetUser(String email, String password) {

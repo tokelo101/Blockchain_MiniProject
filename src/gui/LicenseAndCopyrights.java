@@ -3,9 +3,9 @@ package gui;
 import java.io.File;
 
 import acsse.csc03a3.Transaction;
-import corelogic.Artist;
 import corelogic.Song;
-import corelogic.User;
+import corelogic.users.Artist;
+import corelogic.users.User;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -55,13 +55,49 @@ public class LicenseAndCopyrights extends GridPane{
         btnLicensingInfo.setPrefWidth(200);
         frmUploadsong.add(btnLicensingInfo, 1, 3);
         
+        Label lbCopyRights = new Label("CopyRights Price: ");
+        frmUploadsong.add(lbCopyRights, 0, 4);
+
+        TextField txtCopyRights = new TextField();
+        txtCopyRights.setPromptText("CopyRights Price");
+        frmUploadsong.add(txtCopyRights, 1, 4);        
+
+        Label lbSyncronizationRights = new Label("SyncronizationRights Price: ");
+        frmUploadsong.add(lbSyncronizationRights, 0, 5);
+
+        TextField txtSyncronizationRights = new TextField();
+        txtSyncronizationRights.setPromptText("SyncronizationRights Price");
+        frmUploadsong.add(txtSyncronizationRights, 1, 5);
+
+        Label lbPerformanceRights = new Label("PerformanceRights Price: ");
+        frmUploadsong.add(lbPerformanceRights, 0, 6);
+
+        TextField txtPerformanceRights = new TextField();
+        txtPerformanceRights.setPromptText("PerformanceRights Price");
+        frmUploadsong.add(txtPerformanceRights, 1, 6);
+
+        Label lbMechanicalRights = new Label("MechanicalRights Price: ");
+        frmUploadsong.add(lbMechanicalRights, 0, 7);
+
+        TextField txtMechanicalRights = new TextField();
+        txtMechanicalRights.setPromptText("MechanicalRights Price");
+        frmUploadsong.add(txtMechanicalRights, 1, 7);
+
+        Label lbMastersRights = new Label("MastersRights Price: ");
+        frmUploadsong.add(lbMastersRights, 0, 8);
+
+        TextField txtMastersRights = new TextField();
+        txtMastersRights.setPromptText("MastersRights Price");
+        frmUploadsong.add(txtMastersRights, 1, 8);
+        
+        
         
         Button btnBack = new Button("Back");
-        frmUploadsong.add(btnBack, 0, 5);
+        frmUploadsong.add(btnBack, 0, 10);
         
-        Button btnUpload = new Button("Upload");
+        Button btnUpload = new Button("Upload Song");
         btnUpload.setPrefWidth(200);
-        frmUploadsong.add(btnUpload, 1, 5);
+        frmUploadsong.add(btnUpload, 1, 10);
         GridPane.setHalignment(btnUpload, HPos.CENTER);
         this.getChildren().add(frmUploadsong);
         
@@ -100,8 +136,13 @@ public class LicenseAndCopyrights extends GridPane{
         	newsong.setLyricist(lyricist);
         	newsong.setLicesnseAndTerms(licenceTerms_);
 
-            	Transaction<Song> songUploaded = new Transaction<>(artist.getPublicKey(), null , newsong);
-            	//put song to song list
+        	newsong.setCopyRights_price(Integer.parseInt(txtCopyRights.getText()));
+        	newsong.setSyncronizationRights_price(Integer.parseInt(txtSyncronizationRights.getText()));
+        	newsong.setPerformanceRights_price(Integer.parseInt(txtPerformanceRights.getText()));
+        	newsong.setMechanicalRights_price(Integer.parseInt(txtMechanicalRights.getText()));
+        	newsong.setMastersRights_price(Integer.parseInt(txtMastersRights.getText()));
+            	
+        		//put song to song list
             	if(artist.UploadSong(newsong)) {
             		Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Song Upload");

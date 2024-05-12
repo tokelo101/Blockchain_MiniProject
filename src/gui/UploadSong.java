@@ -2,9 +2,9 @@ package gui;
 
 import java.time.format.DateTimeFormatter;
 
-import corelogic.Artist;
 import corelogic.Song;
-import corelogic.User;
+import corelogic.users.Artist;
+import corelogic.users.User;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -82,6 +82,7 @@ public class UploadSong extends GridPane{
         TextField txtISRC = new TextField();
         frmUploadsong.add(txtISRC, 1, 6);
         
+        
         Button btnNext = new Button("next");
         btnNext.setPrefWidth(200);
         frmUploadsong.add(btnNext, 0, 7);
@@ -90,25 +91,32 @@ public class UploadSong extends GridPane{
         
         btnNext.setOnAction(event->{
         	
-        	  // A listener for the selected date property
-        	dtReleaseDate.valueProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
+        	try {
+          	  // A listener for the selected date property
+            	dtReleaseDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
 
-                }
-            });
-        	
-        	String isrc = txtISRC.getText();
-    		String publisher = txtPublisher.getText();
-    		String title = txtSongTitle.getText();
-    		String releaseDate = dtReleaseDate.getValue().toString();
-    		Song tempsong = new Song(isrc, publisher, title, releaseDate , null, null, artist);
-    		tempsong.setArtist(artist.getName());
-    		tempsong.setComposer(txtComposer.getText());
-        	tempsong.setLyricist(txtLyricist.getText());
-        	LicenseAndCopyrights licenseandcopyrights = new LicenseAndCopyrights(content, primaryStage,artist , tempsong);
-        	this.getChildren().remove(0);
-        	content.getChildren().remove(0);
-        	content.getChildren().addAll(licenseandcopyrights);
+                    }
+                });
+            	
+            	String isrc = txtISRC.getText();
+        		String publisher = txtPublisher.getText();
+        		String title = txtSongTitle.getText();
+        		String releaseDate = dtReleaseDate.getValue().toString();
+        		Song tempsong = new Song(isrc, publisher, title, releaseDate , null, null, artist);
+        		tempsong.setArtist(artist.getName());
+        		tempsong.setComposer(txtComposer.getText());
+            	tempsong.setLyricist(txtLyricist.getText());
+            	
+            	
+            	LicenseAndCopyrights licenseandcopyrights = new LicenseAndCopyrights(content, primaryStage,artist , tempsong);
+            	this.getChildren().remove(0);
+            	content.getChildren().remove(0);
+            	content.getChildren().addAll(licenseandcopyrights);
+        	}catch(NullPointerException npe) {
+        		System.err.println("Date not Set ");
+        	}
+
         });
 	}
 }

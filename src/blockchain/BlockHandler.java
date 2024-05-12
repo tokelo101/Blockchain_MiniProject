@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import acsse.csc03a3.Blockchain;
 import acsse.csc03a3.Transaction;
-import corelogic.User;
+import corelogic.users.User;
 
 public class BlockHandler<T> {
 	

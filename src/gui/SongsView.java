@@ -3,6 +3,9 @@ package gui;
 import java.util.ArrayList;
 
 import corelogic.*;
+import corelogic.users.Artist;
+import corelogic.users.Distributor;
+import corelogic.users.User;
 import javafx.collections.*;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;

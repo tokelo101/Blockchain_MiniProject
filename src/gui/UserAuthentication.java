@@ -1,5 +1,8 @@
 package gui;
 import corelogic.*;
+import corelogic.users.Artist;
+import corelogic.users.Distributor;
+import corelogic.users.User;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -33,9 +36,9 @@ public class UserAuthentication<K, V , T> extends StackPane{
 		gridPane.setPadding(new Insets(25));
 			
 		btnRegister = new Button("Register");
-		btnRegister.setPrefWidth(200);
+		btnRegister.setPrefWidth(150);
 		btnLogin = new Button("Login");
-		btnLogin.setPrefWidth(200);
+		btnLogin.setPrefWidth(150);
 	        
 		content = new HBox();
 		
@@ -59,12 +62,10 @@ public class UserAuthentication<K, V , T> extends StackPane{
         password = new PasswordField();
         gridPane.add(password, 1, 2);
 
-        //gridPane.add(btnLogin,0, 3);
         gridPane.add(btnLogin, 1, 3, 4, 1);
         
         Label lbRegister = new Label("New User? ");
         gridPane.add(lbRegister,0 , 4);
-        //gridPane.add(btnRegister, 0, 5);
         gridPane.add(btnRegister, 1, 4, 4 , 1);
         
         content.getChildren().add(gridPane);

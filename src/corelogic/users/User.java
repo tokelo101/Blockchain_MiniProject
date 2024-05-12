@@ -1,4 +1,4 @@
-package corelogic;
+package corelogic.users;
 /**
  * 
  * @author TM Monare 221022037
@@ -13,7 +13,7 @@ public class User{
 	private String password;
 	private String PRIVATE_KEY;
 	private String PUBLIC_KEY;
-	
+	private double availableBalance;
 	
 	public User(String usertype, String name, String surname, String email, String password) {
 		super();
@@ -82,6 +82,17 @@ public class User{
 		return PUBLIC_KEY;
 	}
 	
+	/**
+	 * 
+	 * @return availableFund returns the value of funds in the account
+	 */
+	public double getAvailableBalance() {
+		return availableBalance;
+	}
+	
+	public double updateBalance(double balance) {
+		return availableBalance += balance;
+	}
 	
 	
 	

@@ -3,6 +3,7 @@ package corelogic;
 import java.io.File;
 import java.util.List;
 import acsse.csc03a3.Transaction;
+import corelogic.users.Artist;
 
 /**
  * 
@@ -22,6 +23,14 @@ public class Song{
 	private String copyrightRegNumber;
 	private File licenseTerms;
 	private File lyrics;
+	
+	
+	//Licence prices 
+	private double copyRights_price;
+	private double syncronizationRights_price;
+	private double performanceRights_price;
+	private double mechanicalRights_price;
+	private double mastersRights_price;
 	
 	//for a transaction
 	private String ArtistAddress;
@@ -166,5 +175,58 @@ public class Song{
 	public void setArtistAddress(String ArtistAddress) {
 		this.ArtistAddress = ArtistAddress;
 	}
-    
+	
+	//prices Setters and Getters
+	public File getLicenseTerms() {
+		return licenseTerms;
+	}
+
+	public void setLicenseTerms(File licenseTerms) {
+		this.licenseTerms = licenseTerms;
+	}
+
+	public double getCopyRights_price() {
+		return copyRights_price;
+	}
+
+	public void setCopyRights_price(double copyRights_price) {
+		this.copyRights_price = copyRights_price;
+	}
+
+	public double getSyncronizationRights_price() {
+		return syncronizationRights_price;
+	}
+
+	public void setSyncronizationRights_price(double syncronizationRights_price) {
+		this.syncronizationRights_price = syncronizationRights_price;
+	}
+
+	public double getPerfomanceRights_price() {
+		return performanceRights_price;
+	}
+
+	public void setPerformanceRights_price(double perfomanceRights_price) {
+		this.performanceRights_price = perfomanceRights_price;
+	}
+
+	public double getMechanicalRights_price() {
+		return mechanicalRights_price;
+	}
+
+	public void setMechanicalRights_price(double mechanicalRights_price) {
+		this.mechanicalRights_price = mechanicalRights_price;
+	}
+
+	public double getMastersRights_price() {
+		return mastersRights_price;
+	}
+
+	public void setMastersRights_price(double mastersRights_price) {
+		this.mastersRights_price = mastersRights_price;
+	}
+
+	public void setTransactions(List<Transaction<Song>> transactions) {
+		this.transactions = transactions;
+	}
+
 }

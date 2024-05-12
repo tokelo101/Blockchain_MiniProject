@@ -1,23 +1,17 @@
-package corelogic;
+package corelogic.users;
 
 import java.util.ArrayList;
 
+import corelogic.Song;
+import corelogic.SongHandler;
+
 public class Distributor extends User{
-	private double availableFunds;
-	private SongHandler songhandler;
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private SongHandler songhandler;
 
 	public Distributor(String usertype, String name, String surname, String email, String password) {
 		super(usertype, name, surname, email, password);
 		songhandler = new SongHandler(this);
-	}
-	
-	public double getAvailableFunds() {
-		return availableFunds;
 	}
 
 

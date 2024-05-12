@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import corelogic.*;
+import corelogic.users.User;
 
 public class RegisterPane extends StackPane {
 	
@@ -21,6 +22,8 @@ public class RegisterPane extends StackPane {
 	private TextField txtEmail;
 	private PasswordField password;
 	private Button btnRegister = null;
+	private Button btnBack = null;
+	
 	private  ObservableList<String> userTypes = FXCollections.observableArrayList(
             "Artist",
             "Record label",
@@ -73,8 +76,16 @@ public class RegisterPane extends StackPane {
 	        password = new PasswordField();
 	        gridPane.add(password, 1, 5);
 
+
+	        btnBack = new Button("Back");
+	        btnBack.setPrefWidth(150);
+	        gridPane.add(btnBack, 1, 6, 1, 1);
+	        
 	        btnRegister = new Button("Register");
-	        gridPane.add(btnRegister, 0, 6, 2, 1);
+	        btnRegister.setPrefWidth(150);
+	        gridPane.add(btnRegister, 1, 7, 1, 1);
+	        
+	        
 	        GridPane.setHalignment(btnRegister, HPos.CENTER);
 	        this.getChildren().add(gridPane);
 	        
@@ -113,6 +124,12 @@ public class RegisterPane extends StackPane {
 	        	}
 	        	
 	        });
+	        
+	        btnBack.setOnAction(event->{
+	        	UserAuthentication<String, String, Song> login = new UserAuthentication<>(primaryStage);
+	        	this.getChildren().remove(0);
+	        	this.getChildren().add(login);
+	         });
 	}
 	
 	
