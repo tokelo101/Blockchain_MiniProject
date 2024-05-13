@@ -75,8 +75,8 @@ public class UserAuthentication<K, V , T> extends StackPane{
        this.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
 	   
        //Test Purposes
-       txtEmail.setText("sm@mail.com");
-	   password.setText("sm");
+       txtEmail.setText("nf@mail.com");
+	   password.setText("nf");
 	   
        btnLogin.setOnAction(event->{
     	   

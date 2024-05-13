@@ -25,7 +25,7 @@ public class Main extends Application{
         Scene root = new Scene(login, 750, 500);
         
         //Setting background color
-        Image backgroundImage = new Image("img/waves.jpg");
+        Image backgroundImage = new Image("img/waves_.jpg");
         BackgroundImage background = new BackgroundImage(backgroundImage,
         		BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER , BackgroundSize.DEFAULT);
