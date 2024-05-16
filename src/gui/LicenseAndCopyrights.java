@@ -23,6 +23,13 @@ import javafx.stage.Stage;
 public class LicenseAndCopyrights extends GridPane{
 	private File licenceTerms;
 	
+	/**
+	 * 
+	 * @param content the Pane for uploading copyrights information 
+	 * @param primaryStage the primary stage
+	 * @param artist the user in session
+	 * @param song the song to be uploaded
+	 */
 	public LicenseAndCopyrights(Pane content, Stage primaryStage,Artist artist, Song song) {
 		GridPane frmUploadsong = new GridPane();
         frmUploadsong.setAlignment(Pos.CENTER);

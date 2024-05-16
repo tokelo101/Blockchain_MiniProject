@@ -1,0 +1,9 @@
+.label {
+    -fx-text-fill: white;
+	-fx-font-size: 14px;
+}
+
+.list-cell {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}

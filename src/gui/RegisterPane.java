@@ -26,7 +26,7 @@ public class RegisterPane extends StackPane {
 	
 	private  ObservableList<String> userTypes = FXCollections.observableArrayList(
             "Artist",
-            "Record label",
+            "Record Label",
             "Publisher",
             "Distributor"
     );

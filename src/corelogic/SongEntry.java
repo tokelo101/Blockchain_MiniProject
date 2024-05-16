@@ -1,9 +1,15 @@
 package corelogic;
 
+/**
+ * 
+ * @author TM Monare 221022037
+ *
+ * @param <K> key for SongEntry
+ * @param <V> values for songEntry
+ */
 public class SongEntry<K,V> implements Entry<K, V>{
     protected K key;
     protected V value;
-    //protected Position<Entry<K, V>> pos;
 
     public SongEntry(K k, V v) {
         key = k;

@@ -1,11 +1,12 @@
 package datacommunication;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.*;
+import java.util.ArrayList;
+
+import acsse.csc03a3.Blockchain;
+import acsse.csc03a3.Transaction;
+import corelogic.Song;
 
 /**
  * 
@@ -14,45 +15,66 @@ import java.net.InetAddress;
  *
  */
 public class Leecher {
+	private Blockchain<Song> blockchain;
+	private ArrayList<Transaction<Song>> transactions = new ArrayList<Transaction<Song>>();
+	String publicAddress;
+	public Leecher(String publicAddress) {
+		this.publicAddress = publicAddress;
+	}
 	
-	public Leecher() {
+	
+	/**
+	 * method for listening for a blockchain file from peers after a block has been addded to the blockchain
+	 * Get the file and save it locally
+	 */
+	public void leechBlockchain() {
 		try {
 			boolean running = true;
 			DatagramSocket clientSocket = new DatagramSocket();
 			 while(running) {
-			 System. out. println("HELLO - Tests connection to server"+
-			 "(responds with WELCOME)");
-			 System. out. println("RANDOM M - Requests a random Integer,"+
-			 " M is the maximum number(e. g. RANDOM 10 can respond with NUMBER 8)");
-			 System. out. println("QUIT - Terminates the connection");
-			 System. out. println("Enter Command: ");
-			 BufferedReader inFromUser =
-			 new BufferedReader(new InputStreamReader(System. in));
-			 InetAddress IPAddress = InetAddress. getByName("localhost");
+				 
+			 InetAddress IPAddress = InetAddress.getByName("localhost");
 			 byte[] sendData = new byte[1024];
 			 byte[] receiveData = new byte[1024];
-			 String sentence = inFromUser. readLine();
-			 sendData = sentence. getBytes();
-			 DatagramPacket sendPacket =
-			 new DatagramPacket(sendData , sendData. length, IPAddress, 9876);
-			 clientSocket. send(sendPacket);
-			 DatagramPacket receivePacket =
-			 new DatagramPacket(receiveData , receiveData. length);
-			 clientSocket. receive(receivePacket);
-			 String modifiedSentence = new String(receivePacket . getData());
-			 System. out. println("FROM SERVER: " + modifiedSentence);
+			 
+			 String blockchainString = receiveData.toString();
+			 
+			 //Convert BlockhainString to Blockchain<Song>
+			 Blockchain<Song> blockchain = ConvertBlockchain(blockchainString);
+			 
+			 //Validation Status
+			 sendData = String.valueOf(Validate(blockchain)).getBytes();
+			 DatagramPacket sendPacket = new DatagramPacket(sendData , sendData.length, IPAddress, 9876);
+			 
+			 clientSocket.send(sendPacket);
+
 			 }
-			 clientSocket. close();
+			 clientSocket.close();
 			 }
 			 catch(IOException io) {
-			 System. err. println(io. getMessage());
+			 System.err.println(io.getMessage());
 			 }
 	}
-	public void leechTransaction() {
-		
-	}
 	
-	public void leechBlockchain() {
+	/**
+	 * 
+	 * @param blockchain blockchain object to be validated by peer
+	 * @return validation status
+	 */
+	private boolean Validate(Blockchain<Song> blockchain) {
+		boolean isValid;
+		isValid = blockchain.isChainValid();
+		return isValid;
+	};
+	
+	private Blockchain<Song> ConvertBlockchain(String BlockchainString){
+		Blockchain<Song> blockchain = new Blockchain<Song>();
+		ArrayList<Transaction<Song>> transactions = new ArrayList<Transaction<Song>>();
 		
+		String[] blockchainData = BlockchainString.split(", ");
+		
+        // Creating and returning the Block object
+        blockchain.addBlock(transactions);
+		return blockchain;
 	}
 }

@@ -8,6 +8,13 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Base64;
 
+/**
+ * 
+ * @author TM Monare
+ *
+ * @param <PUBLIC_KEY> publicKey
+ * @param <PRIVATE_KEY> privateKey
+ */
 public class RSAKeyGenerator<PUBLIC_KEY,PRIVATE_KEY> {
         
 	public KeyPairs<String,String> GenerateKeys(){

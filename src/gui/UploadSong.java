@@ -25,6 +25,12 @@ import javafx.stage.Stage;
  */
 public class UploadSong extends GridPane{
 	
+	/**
+	 * 
+	 * @param content the Pane for uploading song
+	 * @param primaryStage the primary stage
+	 * @param artist the user that uploads song 
+	 */
 	public UploadSong(Pane content, Stage primaryStage, Artist artist) {
 		
 		GridPane frmUploadsong = new GridPane();
@@ -44,12 +50,6 @@ public class UploadSong extends GridPane{
 
         TextField txtSongTitle = new TextField();
         frmUploadsong.add(txtSongTitle, 1, 1);
-        
-//        Label lbArtist = new Label("Artist:");
-//        frmUploadsong.add(lbArtist, 0, 2);
-//
-//        TextField txtArtist = new TextField();
-//        frmUploadsong.add(txtArtist, 1, 2);
         
         Label lbComposer = new Label("Composer:" );
         frmUploadsong.add(lbComposer, 0, 2);

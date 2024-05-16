@@ -18,15 +18,18 @@ public class SongsView<K,V> extends StackPane{
 	private HBox container;
 	private ListView<SongEntry<K,V>> songList = new ListView<>();
 	private GridPane songDetails;
-	private TextField txtName;
-	private TextField txtSurname;
-	private TextField txtEmail;
-	private PasswordField password;
 	private Artist artist;
 	private Distributor distributor;
 	
 	private static Song selectedSong;
 	
+	/**
+	 * 
+	 * @param content the Pane for uploading song
+	 * @param primaryStage the primary stage
+	 * @param artist the user that uploads song 
+	 */
+	@SuppressWarnings("unchecked")
 	public SongsView(Pane content, Stage primaryStage, User user) {
 	    container = new HBox();
 	    songDetails = new GridPane();
@@ -48,7 +51,7 @@ public class SongsView<K,V> extends StackPane{
 		    
 		    
 		    for(Song s: artistsongs){
-		    	SongEntry<String,String> songEntry = new SongEntry(s.getISRC(), s.getSongTitle());
+		    	SongEntry<String,String> songEntry = new SongEntry<String, String>(s.getISRC(), s.getSongTitle());
 		    	songs.add((SongEntry<K, V>) songEntry);
 		    }
 	    }else {
@@ -64,7 +67,7 @@ public class SongsView<K,V> extends StackPane{
 		    
 		    
 		    for(Song s: artistsongs){
-		    	SongEntry<String,String> songEntry = new SongEntry(s.getISRC(), s.getSongTitle());
+		    	SongEntry<String,String> songEntry = new SongEntry<String, String>(s.getISRC(), s.getSongTitle());
 		    	songs.add((SongEntry<K, V>) songEntry);
 		    }
 		}
@@ -160,10 +163,6 @@ public class SongsView<K,V> extends StackPane{
             }
         });
 	    
-	    //remove the previous contents
-	    //content.getChildren().remove(0);
-		//clean content
-		//container.getChildren().clear();
 	    VBox songview = new VBox();
 	    this.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 	    

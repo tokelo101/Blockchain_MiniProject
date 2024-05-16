@@ -13,6 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * 
+ * @author TM Monare 221022037
+ *
+ */
 public class SongHandler {
 	private String SongsPath = "data/songs.txt"; //Will be uniquely identified by the International Standard Recording Code
 	private User user;
@@ -22,6 +27,11 @@ public class SongHandler {
 		this.user = user;
 	}
 	
+	/**
+	 * 
+	 * @param song the song to be written to file
+	 * @return returns boolean value on whether writing was successful or not
+	 */
 	public boolean WriteSong(Song song) {
 		//Add song to a list of user's song list	
 		boolean status = false;
@@ -44,6 +54,11 @@ public class SongHandler {
 	
 	}
 	
+	/**
+	 * 
+	 * @param ISRC Internationl Standard Recording Code, the unique song identifier
+	 * @return returns Song if found
+	 */
 	public Song ReadSong(String ISRC) {
 		Song song = null;
 		
@@ -92,7 +107,6 @@ public class SongHandler {
 		                    System.out.println("Invalid song data format in the file.");
 		                }
 		            } else {
-		                System.out.println("The file is empty.");
 		                return song;
 		            }
 	            }
@@ -104,7 +118,10 @@ public class SongHandler {
 
 	}
 	
-	
+	/**
+	 * 
+	 * @return array of songs read from file
+	 */
 	public ArrayList<Song> ReadAllSongs(){
 		ArrayList<Song> songs = new ArrayList<Song>();
 		
@@ -151,7 +168,6 @@ public class SongHandler {
 		                    System.out.println("Invalid song data format in the file.");
 		                }
 		            } else {
-		                System.out.println("The file is empty.");
 		                return songs;
 		            }
 	            }
@@ -164,6 +180,11 @@ public class SongHandler {
 	}
 	
 	
+	/**
+	 * 
+	 * @param Address the artist's public address
+	 * @return the array of songs read for the artist
+	 */
 	public ArrayList<Song> readArtistSongs(String Address){
 		ArrayList<Song> songs = new ArrayList<Song>();
 		
@@ -210,7 +231,7 @@ public class SongHandler {
 		                    System.out.println("Invalid song data format in the file.");
 		                }
 		            } else {
-		                System.out.println("The file is empty.");
+
 		                return songs;
 		            }
 	            }

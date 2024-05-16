@@ -5,7 +5,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.Random;
+
+import acsse.csc03a3.Blockchain;
+import acsse.csc03a3.Transaction;
+import corelogic.Song;
 
 /**
  * 
@@ -14,8 +19,22 @@ import java.util.Random;
  *
  */
 public class Seeder {
+	private Blockchain<Song> blockchain;
+	private ArrayList<Transaction<Song>> transactions = new ArrayList<Transaction<Song>>();
+	private String publicAddress;
 	
-	public Seeder() {
+	public Seeder(String publicAddress) {
+	this.publicAddress =publicAddress;
+	}
+	
+	
+	/**
+	 * Method for sending the blockchain file to peers after a block has been added
+	 * @param blockchain the blockchain object to be validated
+	 * @return
+	 */
+	public void seedBlockchain(Blockchain<Song> blockchain) {
+		this.blockchain = blockchain;
 		try {
 			System. out. println("Started Server");
 			DatagramSocket serverSocket = new DatagramSocket (9876);
@@ -25,50 +44,27 @@ public class Seeder {
 			
 		while(running) {
 		//Receive request from client
-			DatagramPacket receivePacket =
-			new DatagramPacket(receiveData , receiveData. length);
+			DatagramPacket receivePacket = new DatagramPacket(receiveData , receiveData. length);
 			serverSocket. receive(receivePacket);
 			String request = new String( receivePacket. getData());
 			String response = "";
-		//Process request
-		if (request. startsWith("HELLO")) {
-		System. out. println("HELLO RECEIVED: " + request);
-		response = "WELCOME";
-		}
-		else if (request. startsWith("RANDOM")) {
-		System. out. println("RANDOM RECEIVED: " + request);
-		Random r = new Random(System. currentTimeMillis());
-		int max = Integer. parseInt(request. split(" ")[1]. trim());
-		response = "NUMBER "+ r. nextInt(max);
-		}
-		else if (request. startsWith("QUIT")) {
-		System. out. println("QUIT RECEIVED: " + request);
-		response = "EXIT";
-		running = false;
-		}
-		//Send reponse back to client
-		InetAddress IPAddress = receivePacket . getAddress();
-		int port = receivePacket . getPort();
-		sendData = response. getBytes();
-		DatagramPacket sendPacket =
-		new DatagramPacket(sendData, sendData. length, IPAddress, port);
-		serverSocket. send(sendPacket);
+			
+			response = blockchain.toString() ;
+			
+		//Send validation status back to client
+		InetAddress IPAddress = receivePacket.getAddress();
+		int port = receivePacket.getPort();
+		sendData = response.getBytes();
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData. length, IPAddress, port);
+		serverSocket.send(sendPacket);
 		
 		}
 		}
 		catch(IOException io)
 		{
 		System. err. println(io. getMessage());
-		}finally {
+		}
+	}
+	
 
-		}
-		}
-	
-	public void seedTransaction() {
-		
-	}
-	
-	public void seedBlockchain() {
-		
-	}
 }

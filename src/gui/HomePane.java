@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.File;
+
 import blockchain.*;
 import corelogic.Song;
 import corelogic.UserHandler;
@@ -9,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class HomePane<K, V, T> extends StackPane {
@@ -17,7 +20,7 @@ public class HomePane<K, V, T> extends StackPane {
     private User user;
     private Artist artist;
 	private Song selectedSong;
-	private BlockHandler<T> blockhandler;
+	private BlockchainHandler<T> blockhandler;
 	
     //User Funds Account
     private HBox fundsBox;
@@ -55,31 +58,27 @@ public class HomePane<K, V, T> extends StackPane {
     //private RegisterPane register;
     private UserAuthentication<String, String, Song> login;
     private UploadSong uploadsong;
+    private Settings settings;
     private SongsView<K,V> songsView;
     
+    /**
+     * 
+     * @param primaryStage the primary stage 
+     * @param user user in session
+     */
     public HomePane(Stage primaryStage, User user) {
     	this.user = user;
     	if(user.getUserType().equals("Artist")) {
-    		
-    		
+    		    		
     		artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
 		    artist.setPUBLIC_KEY(user.getPublicKey());
 		    artist.setPRIVATE_KEY(user.getPrivateKey());	
-    	
-		    System.out.println("UserType in Homepane Constructor is Artist" + user.getPublicKey());
-		    
-	    	artist.PrintUser();
-	    	System.out.println("UserType in Homepane Constructor is Artist" + user.getPrivateKey());
     	}
     	
     	this.primaryStage = primaryStage;
     	
-    	
-    	System.out.println("User in Homepane Constructor");
-    	user.PrintUser();
-    	
-    	blockhandler = new BlockHandler<T>(user);
-    	
+    	//Blockchain handler
+    	blockhandler = new BlockchainHandler<T>(user);
     	
     	mainBox = new VBox();
         mainBox.setAlignment(Pos.TOP_CENTER);
@@ -95,6 +94,7 @@ public class HomePane<K, V, T> extends StackPane {
         txtSearchBox.setPromptText("search");
         
         btnSearchButton = new Button("Search 🔍");
+        btnSearchButton.setDisable(true);
         searchBox.getChildren().addAll(txtSearchBox, btnSearchButton);
         
         
@@ -178,6 +178,15 @@ public class HomePane<K, V, T> extends StackPane {
         content.getChildren().add(tempField); //helps avoid the null pointer exception when removing before adding a nav item
         
     	
+        navSettings.setOnAction(event->{
+        	settings = new Settings(content, primaryStage, artist);
+        	this.getChildren().remove(0);
+        	content.getChildren().clear();
+        	content.getChildren().addAll(settings);
+        	this.getChildren().add(mainBox);
+        	
+        });
+        
     	navUploadSong.setOnAction(event->{
         	uploadsong = new UploadSong(content, primaryStage, artist);
         	this.getChildren().remove(0);
@@ -188,8 +197,7 @@ public class HomePane<K, V, T> extends StackPane {
         });
         
          navSongList.setOnAction(event->{
-        	System.out.println("-------Nav Song List-------");
-        	user.PrintUser();
+        
         	songsView = new SongsView<K, V>(content, primaryStage, user);
         	this.getChildren().remove(0);
         	content.getChildren().clear();
@@ -197,7 +205,44 @@ public class HomePane<K, V, T> extends StackPane {
         	this.getChildren().add(mainBox);
         	
         });
-    }
+         
+         navUpdateLicenseTerms.setOnAction(event->{
+         	
+         	Song selectedSong = SongsView.selectedSong();  
+         
+         	//put song to song list
+         	if(selectedSong == null) {
+         		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                 alert.setTitle("Update License Terms");
+                 alert.setHeaderText("License Terms Update Failed");
+                 alert.setContentText("Please select a song first" );
+                 alert.showAndWait();
+                 return ;
+         	}
+     	try {
+     		FileChooser fc = new FileChooser();
+         	fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+         	File licenceTerms = fc.showOpenDialog(primaryStage);
+         	
+       
+     	if(artist.UpdateLicenceTerms(selectedSong.getISRC(), licenceTerms)){
+     		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Update License Terms");
+            alert.setHeaderText("License Terms Update Succesful");
+             alert.setContentText("The transaction will be validated by peers with stake");
+             alert.showAndWait();
+     	}else {
+     		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Update License Terms");
+            alert.setHeaderText("License Terms Update Failed");
+             alert.setContentText("Please Try Again");
+             alert.showAndWait();
+     	}
+     	}catch(Exception ex) {
+     		System.err.print("License Term Update Error");
+     	}
+         });
+        }
     
     /**
      * Distributor/Publisher/Record Label Navigation Bar
@@ -261,6 +306,7 @@ public class HomePane<K, V, T> extends StackPane {
         
         
         navSongList.setOnAction(event->{
+        	
         	songsView = new SongsView<K,V>(content, primaryStage, user);
         	this.getChildren().remove(0);
         	content.getChildren().remove(0);
@@ -270,48 +316,103 @@ public class HomePane<K, V, T> extends StackPane {
         
         
         navBuy_CopyRights.setOnAction(event->{
-        	
-
-        	//get selected song from SongView Class
-        	selectedSong = SongsView.selectedSong();
-        	
-        	//Validate Price 
-        	if(user.getAvailableBalance() <= selectedSong.getCopyRights_price()) {
-        		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Purchase Transaction");
-                alert.setHeaderText("Transaction Falied");
-                alert.setContentText("You have do not have enough Funds toy make this transacation");
-                alert.showAndWait();
-        		return;
-        	};
-        	
+        	BuyRights("CopyRights");
+        });
+        
+        navBuy_SyncronizatoinRights.setOnAction(event->{
+        	BuyRights("SyncronizationRights");
+        });
+        
+        navBuy_Performance_Rights.setOnAction(event->{
+        	BuyRights("PerformanceRights");
+        });
+        
+        navBuy_Mechanical_Rights.setOnAction(event->{
+        	BuyRights("MechanicalRights");
+        });
+        
+        navBuy_Masters_Rights.setOnAction(event->{
+        	BuyRights("MastersRights");
+        });
+        
+    }
+    
+    /**
+     * 
+     * @param rightsType the type of IP rights transaction
+     */
+	private void BuyRights(String rightsType) {
+		//get selected song from SongView Class
+    	selectedSong = SongsView.selectedSong();
+    	
+    	try {
+    		
         	if(selectedSong == null) {
         		Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Purchase Transaction");
                 alert.setHeaderText("Transaction Falied");
                 alert.setContentText("You have to select a song first!");
                 alert.showAndWait();
-        	}else {
+        	}else
+        		//Validate Price 
+            	if(user.getAvailableBalance() <= selectedSong.getCopyRights_price()) {
+            		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Purchase Transaction");
+                    alert.setHeaderText("Transaction Falied");
+                    alert.setContentText("You have do not have enough Funds to make this transacation");
+                    alert.showAndWait();
+            		return;
+            	}
+            	
+        	
+        	else {
             	String artistAddress  = selectedSong.getArtistAddress() ;        		
-        		SongTransaction<T> songTransaction = new SongTransaction<>(selectedSong, "CopyRights",user.getPublicKey(),artistAddress, 94);
+        		SongTransaction<T> songTransaction = new SongTransaction<>(selectedSong, rightsType,user.getPublicKey(),artistAddress, 94);
         		
         		boolean TransactionAdded = blockhandler.addTransaction(songTransaction);
             	
         		if(TransactionAdded==true) {
         			
         			//Update User Balance
-        			user.updateBalance(-598.5);
+        			
+        			switch(rightsType) {
+        			case "CopyRights":{
+        				user.updateBalance(-selectedSong.getCopyRights_price());
+            				
+        			}break;
+        			case "SyncronizationRights":{
+        				user.updateBalance(-selectedSong.getSyncronizationRights_price());
+            				
+        			}break;
+        			case "PerformanceRights":{
+        				user.updateBalance(-selectedSong.getPerfomanceRights_price());
+            				
+        			}break;
+        			case "MechanicalRights":{
+        				user.updateBalance(-selectedSong.getMechanicalRights_price());
+            				
+        			}break;
+        			case "MastersRights":{
+        				user.updateBalance(-selectedSong.getMastersRights_price());
+            				
+        			}break;
+        			default:{
+        				System.err.println("Rights dont exist!");
+        			}
+        			}
+        			
+        			
         			//Refresh View
         			lbfunds = new Label(String.valueOf("R "+(user.getAvailableBalance())));
             		fundsBox.getChildren().clear();
             		lbfunds.setFont(Font.font("Arial", FontWeight.BOLD, 20));
             		fundsBox.getChildren().addAll(lbbalance, lbfunds);
         			
-        			BuyView buyview= new BuyView();
-                	this.getChildren().remove(0);
-                	content.getChildren().remove(0);
-                	content.getChildren().addAll(buyview);
-                	this.getChildren().add(mainBox);
+            		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Purchase Transaction");
+                    alert.setHeaderText("Transaction Successful");
+                    alert.setContentText("An Email will be send to you Shortly");
+                    alert.showAndWait();
         		}else {
         			Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Purchase Transaction");
@@ -321,12 +422,18 @@ public class HomePane<K, V, T> extends StackPane {
         		}
             	
         	}
-        	selectedSong = null;
-        });
-        
-        
-    }
-    
-	
+        	selectedSong = null;	
+    	}catch(NullPointerException npe) {
+    		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Purchase Transaction");
+            alert.setHeaderText("Transaction Falied");
+            alert.setContentText("Please Select song First");
+            alert.showAndWait();
+    		return;
+    	}
+    	
+    	
+
+	}
 }
 

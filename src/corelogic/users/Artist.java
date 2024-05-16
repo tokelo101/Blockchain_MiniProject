@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import corelogic.Song;
 import corelogic.SongHandler;
 
+/**
+ * 
+ * @author TM Monare 221022037
+ *
+ */
 public class Artist extends User{
 	
 	private SongHandler songhandler;
@@ -63,21 +68,6 @@ public class Artist extends User{
 		String releaseDate = song.getReleaseDate();
 		String copyrightHolder = song.getCopyrightsHolder();
 		String copyrightRegNo = song.getCopyrightRegNumber();
-		
-		//Create a Clone of the song.
-		//Song updatedSong = new Song(isrc, publisher, title, releaseDate, copyrightHolder, copyrightRegNo); 
-		//Update License terms
-		//updatedSong.setLicesnseAndTerms(licenceTerms);
-		//Create a transaction
-		//Transaction<Song> transaction = new Transaction<Song>(this.getAddress(), null, updatedSong);   //NOTE: update licenseTerms can't be a transaction between sender and receiver 
-		//updatedSong.addTransaction(transaction);
-		//Add to temporary transaction list file
-			//send updated transaction list to peers on the network
-			//if there's more than 5 transactions
-				//Create a block
-				//Send a Block to peers
-				//if the block is valid
-				//Add block to Blockchain
 		
 		
 		return status;

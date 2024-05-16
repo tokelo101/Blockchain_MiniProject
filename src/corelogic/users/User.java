@@ -14,7 +14,16 @@ public class User{
 	private String PRIVATE_KEY;
 	private String PUBLIC_KEY;
 	private double availableBalance;
+	private int stake;
 	
+	/**
+	 * 
+	 * @param usertype the type of user
+	 * @param name userNmae
+	 * @param surname userSurname
+	 * @param email userEmail
+	 * @param password userPassword
+	 */
 	public User(String usertype, String name, String surname, String email, String password) {
 		super();
 		this.usertype = usertype;
@@ -94,7 +103,15 @@ public class User{
 		return availableBalance += balance;
 	}
 	
-	
+	public int getStake() {
+	//for now;
+		return 10;
+	}
+
+
+	public void setStake(int stake) {
+		this.stake = stake;
+	}	
 	
 	//Test Purposes
 	public void PrintUser() {
@@ -108,4 +125,7 @@ public class User{
 		System.out.println("Email: "+this.getEmail());
 		System.out.println("Password: "+this.getPassword());
 	}
+
+
+
 }

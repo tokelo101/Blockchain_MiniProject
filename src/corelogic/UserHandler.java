@@ -73,6 +73,12 @@ public class UserHandler{
 		//Reading arist data from a binary File
 		return ReadUser(publicKey);
 	}
+	
+	/**
+	 * 
+	 * @param publicKey the artits's public key
+	 * @return returns artist if found
+	 */
 	public static Artist GetArtist(String publicKey) {
 		//Reading user data from a binary File
 		User user = GetUser(publicKey);
@@ -84,7 +90,12 @@ public class UserHandler{
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param email userEmail
+	 * @param password userPassword
+ 	 * @return returns the user if found
+	 */
 	public User GetUser(String email, String password) {
 		//Reading user data from a binary File
 		return ReadUser(email, password);

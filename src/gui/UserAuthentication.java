@@ -2,6 +2,8 @@ package gui;
 import corelogic.*;
 import corelogic.users.Artist;
 import corelogic.users.Distributor;
+import corelogic.users.Publisher;
+import corelogic.users.Record_Label;
 import corelogic.users.User;
 import javafx.geometry.*;
 import javafx.scene.control.*;
@@ -85,7 +87,7 @@ public class UserAuthentication<K, V , T> extends StackPane{
     	
     	 if(user!=null) {
     		   
-    		 //Navigate to Distributor UI
+    		 //Navigate to Artist UI
        	 if(user.getUserType().equals("Artist")) {
        	 	Artist artist = new Artist(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
        	 	artist.setPUBLIC_KEY(user.getPublicKey());
@@ -95,7 +97,7 @@ public class UserAuthentication<K, V , T> extends StackPane{
        	 	this.getChildren().remove(0);
        	 	this.getChildren().remove(0);
        	 	this.getChildren().addAll(home);
-       	 	}
+       	 	}else
        	 	//Navigate to Distributor UI
        	 if(user.getUserType().equals("Distributor")) {
        		Distributor distributor = new Distributor(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
@@ -105,6 +107,28 @@ public class UserAuthentication<K, V , T> extends StackPane{
     	 	this.getChildren().remove(0);
     	 	this.getChildren().remove(0);
     	 	this.getChildren().addAll(home);
+    	 	}else
+       //Navigate to Publisher UI
+       	 if(user.getUserType().equals("Publisher")) {
+       		Publisher publisher = new Publisher(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+       		publisher.setPUBLIC_KEY(user.getPublicKey());
+       		publisher.setPRIVATE_KEY(user.getPrivateKey());
+       		HomePane<K, V, T> home = new HomePane<K, V, T>(primaryStage, publisher);
+    	 	this.getChildren().remove(0);
+    	 	this.getChildren().remove(0);
+    	 	this.getChildren().addAll(home);
+    	 	}else
+       //Navigate to Record Label UI
+       	 if(user.getUserType().equals("Record Label")) {
+       		Record_Label record_label = new Record_Label(user.getUserType(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword());
+       		record_label.setPUBLIC_KEY(user.getPublicKey());
+       		record_label.setPRIVATE_KEY(user.getPrivateKey());
+       		HomePane<K, V, T> home = new HomePane<K, V, T>(primaryStage, record_label);
+    	 	this.getChildren().remove(0);
+    	 	this.getChildren().remove(0);
+    	 	this.getChildren().addAll(home);
+    	 	}else {
+    	 		System.out.println("User Type Not Found");
     	 	}
            	
            }else {
